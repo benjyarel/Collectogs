@@ -5,11 +5,12 @@ export default function Home() {
   const getRequestToken = async () => {
     try {
       const res = await fetch("/api/discog-auth");
+      const textData = await res.text();
+      const params = new URLSearchParams(textData);
+      const data = Object.fromEntries(params);
 
-      const data = await res.text();
-      console.log("Token reçu :", data);
-      //TODO : parse string
-      // todo redirect to discogs auth page with token
+      const discogsAuthUrl = `https://www.discogs.com/oauth/authorize?oauth_token=${data.oauth_token}`;
+      window.location.href = discogsAuthUrl;
     } catch (err) {
       console.error(err);
     }
