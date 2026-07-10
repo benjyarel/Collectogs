@@ -1,27 +1,29 @@
 import { NextResponse } from "next/server";
 export const GET = async () => {
-  // TODO remove before push
-  const consumerKey = "bdxvVkFhiUQuWFEnHlKq";
-  const consumerSecret = "zUNVRbSICIVMIQcfacnmZfAYzhZXQiFq";
+  const key = process.env.DISCOG_CONSUMER_KEY;
+  const secret = process.env.DISCOG_CONSUMER_SECRET;
 
   const url = "https://api.discogs.com/oauth/request_token";
 
-  const signature = `${consumerSecret}&`;
+  // PLAINTEXT signature method
+  const signature = `${secret}&`;
+
   const timestamp = Date.now().toString();
   // TODO : verify pattern for nonce
   const nonce = timestamp + Math.random().toString(36).substring(2);
+
   // TODO: when workflow completed, fullfill the callback URL
   const callbackUrl = "";
 
   // Le header complet sur UNE SEULE ligne avec les nouveaux paramètres requis
-  const authHeader = `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${nonce}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_callback="${callbackUrl}", oauth_version="1.0"`;
+  const authHeader = `OAuth oauth_consumer_key="${key}", oauth_nonce="${nonce}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_callback="${callbackUrl}", oauth_version="1.0"`;
   try {
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "Collectog/0.1",
         Authorization: authHeader,
-        "User-Agent": "Collectog/0.1 +http://localhost:3000",
       },
     });
 
