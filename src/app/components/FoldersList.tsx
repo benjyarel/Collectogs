@@ -1,4 +1,4 @@
-import { getUserFolders } from "@/api/getUserFolders";
+import { getUserFolders } from "@/app/api/getUserFolders";
 import { useState } from "react";
 export const FoldersList = () => {
   const [foldersJson, setFoldersJson] = useState({ folders: [] });
