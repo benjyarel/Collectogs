@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const oauthVerifier = searchParams.get("oauth_verifier");
 
   if (!oauthToken || !oauthVerifier) {
-    return NextResponse.json({ error: "Missing" }, { status: 400 });
+    return NextResponse.json({ error: "Missing User" }, { status: 400 });
   }
   const cookieStore = await cookies();
   const collectogRequestTokens = cookieStore.get(COOKIES.consumerRequestTokens);
@@ -34,13 +34,7 @@ export async function GET(request: Request) {
 
   if (!response.ok) {
     const errorText = await response.text();
-    return NextResponse.json(
-      {
-        error: "Échec de la récupération de l'Access Token",
-        details: errorText,
-      },
-      { status: response.status },
-    );
+    return NextResponse.json({ error: errorText }, { status: response.status });
   }
   const sessionTokens = await response.text();
   const finalTokens = Object.fromEntries(new URLSearchParams(sessionTokens));

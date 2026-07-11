@@ -1,14 +1,15 @@
 "use client";
-export const PageContent = ({ discogUser }: { discogUser: any }) => {
+import { OauthUser } from "@/app/types";
+export const PageContent = ({ discogUser }: { discogUser: OauthUser }) => {
   const getRequestToken = async () => {
     try {
       const res = await fetch("/api/discog/auth");
+
       const textData = await res.text();
       const params = new URLSearchParams(textData);
-      const data = Object.fromEntries(params);
+      const { oauth_token } = Object.fromEntries(params);
 
-      const discogsAuthUrl = `https://www.discogs.com/oauth/authorize?oauth_token=${data.oauth_token}`;
-      window.location.href = discogsAuthUrl;
+      window.location.href = `https://www.discogs.com/oauth/authorize?oauth_token=${oauth_token}`;
     } catch (err) {
       console.error(err);
     }

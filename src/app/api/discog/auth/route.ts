@@ -10,12 +10,10 @@ export const GET = async () => {
   const signature = `${DISCOG_CONSUMER_SECRET}&`;
 
   const timestamp = Date.now().toString();
-  // TODO : verify pattern for nonce
   const nonce = timestamp + Math.random().toString(36).substring(2);
 
   const callbackUrl = "http://localhost:3000/api/discog/auth-redirect";
 
-  // Le header complet sur UNE SEULE ligne avec les nouveaux paramètres requis
   const authHeader = `OAuth oauth_consumer_key="${DISCOG_CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_callback="${callbackUrl}", oauth_version="1.0"`;
   try {
     const response = await fetch(url, {
@@ -35,7 +33,7 @@ export const GET = async () => {
       );
     }
 
-    // Discogssends back an URL-encoded (oauth_token=xxx&oauth_token_secret=yyy)
+    // Discogs sends back an URL-encoded (oauth_token=xxx&oauth_token_secret=yyy)
     const data = await response.text();
 
     // Temporary tokens for handling validation on the callback on discogs-auth-redirect route
