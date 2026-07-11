@@ -1,7 +1,6 @@
 export const getUserFolders = async () => {
   const username = "benyarel";
-  const collectogToken = "wHcuozTzOFXQrtQEpoRFOkmHOSQCHIdGnitjccSZ";
-  const collectogQueryString = `&token=${collectogToken}`;
+  const collectogQueryString = `&token=${process.env.COLLECTOG_TOKEN}`;
   const response = await fetch(
     `https://api.discogs.com/users/${username}/collection/folders?${collectogQueryString}`,
     {

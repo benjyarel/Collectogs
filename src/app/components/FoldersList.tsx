@@ -1,5 +1,5 @@
 "use client";
-import { getUserFolders } from "@/app/api/getUserFolders";
+import { getUserFolders } from "@/app/lib/discog/getUserFolders";
 import { useState } from "react";
 export const FoldersList = () => {
   const [foldersJson, setFoldersJson] = useState({ folders: [] });
