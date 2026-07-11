@@ -13,7 +13,7 @@ export const GET = async () => {
   // TODO : verify pattern for nonce
   const nonce = timestamp + Math.random().toString(36).substring(2);
 
-  const callbackUrl = "http://localhost:3000/api/discog-auth-redirect";
+  const callbackUrl = "http://localhost:3000/api/discog/auth-redirect";
 
   // Le header complet sur UNE SEULE ligne avec les nouveaux paramètres requis
   const authHeader = `OAuth oauth_consumer_key="${key}", oauth_nonce="${nonce}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_callback="${callbackUrl}", oauth_version="1.0"`;

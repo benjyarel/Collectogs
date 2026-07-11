@@ -1,3 +1,4 @@
+"use client";
 import { getUserFolders } from "@/app/api/getUserFolders";
 import { useState } from "react";
 export const FoldersList = () => {
