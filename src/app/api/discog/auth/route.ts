@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { USER_AGENT, DISCOGS_URL, COOKIES } from "@/app/constants/api";
 export const GET = async () => {
-  const key = process.env.DISCOG_CONSUMER_KEY;
-  const secret = process.env.DISCOG_CONSUMER_SECRET;
+  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
 
-  const url = "https://api.discogs.com/oauth/request_token";
+  const url = DISCOGS_URL.oauthRequestToken;
 
   // PLAINTEXT signature method
-  const signature = `${secret}&`;
+  const signature = `${DISCOG_CONSUMER_SECRET}&`;
 
   const timestamp = Date.now().toString();
   // TODO : verify pattern for nonce
@@ -16,13 +16,13 @@ export const GET = async () => {
   const callbackUrl = "http://localhost:3000/api/discog/auth-redirect";
 
   // Le header complet sur UNE SEULE ligne avec les nouveaux paramètres requis
-  const authHeader = `OAuth oauth_consumer_key="${key}", oauth_nonce="${nonce}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_callback="${callbackUrl}", oauth_version="1.0"`;
+  const authHeader = `OAuth oauth_consumer_key="${DISCOG_CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_callback="${callbackUrl}", oauth_version="1.0"`;
   try {
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": "Collectog/0.1",
+        "User-Agent": USER_AGENT,
         Authorization: authHeader,
       },
     });
@@ -40,7 +40,7 @@ export const GET = async () => {
 
     // Temporary tokens for handling validation on the callback on discogs-auth-redirect route
     const cookieStore = await cookies();
-    cookieStore.set("oauth_tokens", data, {
+    cookieStore.set(COOKIES.consumerRequestTokens, data, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
@@ -49,6 +49,6 @@ export const GET = async () => {
 
     return new NextResponse(data, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 };
