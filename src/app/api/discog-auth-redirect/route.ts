@@ -18,17 +18,13 @@ export async function GET(request: Request) {
   const tokens = oauthTokens
     ? Object.fromEntries(new URLSearchParams(oauthTokens.value))
     : null;
+
   // 2. Préparation des variables pour le POST
   const consumerKey = process.env.DISCOG_CONSUMER_KEY;
   const consumerSecret = process.env.DISCOG_CONSUMER_SECRET;
-
   const timestamp = Date.now().toString();
   const nonce = timestamp + Math.random().toString(36).substring(2);
-
-  // Comme indiqué dans TA doc : juste le consumer_secret suivi d'un "&"
   const signature = `${consumerSecret}&${tokens?.oauth_token_secret}`;
-
-  console.log("oauthTokens from sessionStorage:", oauthTokens);
 
   // Construction du header strictement selon la doc
   const authHeader = `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${nonce}", oauth_token="${tokens?.oauth_token}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_verifier="${oauthVerifier}"`;
@@ -53,18 +49,27 @@ export async function GET(request: Request) {
       { status: response.status },
     );
   }
+  const sessionTokens = await response.text();
+  const finalTokens = Object.fromEntries(new URLSearchParams(sessionTokens));
+  console.log("Response from Discogs access_token:", finalTokens);
 
-  // 4. Traitement de la réponse de Discogs
-  const data = await response.text();
-  const finalTokens = Object.fromEntries(new URLSearchParams(data));
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 30, // 30 jours
+  };
 
-  // Pour l'instant, on se contente de renvoyer le JSON en réponse
-  // (Dans un second temps, tu pourras intercepter ça pour stocker finalTokens en BDD)
-  return NextResponse.json(
-    {
-      message: "Authentification réussie",
-      tokens: finalTokens,
-    },
-    { status: 200 },
+  cookieStore.set(
+    "discogs_access_token",
+    finalTokens.oauth_token,
+    cookieOptions,
   );
+  cookieStore.set(
+    "discogs_access_secret",
+    finalTokens.oauth_token_secret,
+    cookieOptions,
+  );
+
+  return NextResponse.redirect(new URL("/", request.url));
 }
