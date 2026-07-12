@@ -1,25 +1,47 @@
+import { USER_AGENT } from "@/app/constants/api";
 import { cookies } from "next/headers";
-import { COOKIES } from "@/app/constants/api";
 
-// Comme c'est utilisé par du client side il faut :
-// la logique oAuth doit stocker les infos user et la construction de la query string dans un contexte haut
-// ainsi  tout enfant pourra le consommer par la suite et n'aura plus besoin de consommer les cookies
-
-export const getUserFolders = async () => {
-  const username = "benyarel";
-  console.log(process.env);
+export async function getUserFolders({ username }: { username: string }) {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
-  const accessSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;
+  const userToken = cookieStore.get("discogs_access_token")?.value;
+  const userSecret = cookieStore.get("discogs_access_secret")?.value;
 
-  const userTokensQuery = `oauth_token=${accessToken}&oauth_token_secret=${accessSecret}`;
-  const response = await fetch(
-    `https://api.discogs.com/users/${username}/collection/folders?${userTokensQuery}`,
-    {
-      method: "GET",
-    },
-  );
-  const responseData = await response.json();
+  if (!userToken || !userSecret) {
+    throw new Error("Utilisateur non authentifié");
+  }
 
-  return responseData;
-};
+  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
+
+  // CORRECTION CRUCIALE : Math.floor(Date.now() / 1000) pour passer en SECONDES
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const nonce = timestamp + Math.random().toString(36).substring(2);
+
+  const signature = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
+
+  const authHeader = `OAuth oauth_consumer_key="${DISCOG_CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_token="${userToken}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_version="1.0"`;
+
+  try {
+    const response = await fetch(
+      `https://api.discogs.com/users/${username}/collection/folders`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: authHeader,
+          "User-Agent": USER_AGENT,
+        },
+        cache: "no-store",
+      },
+    );
+
+    if (!response.ok) {
+      console.error("Échec Dossiers:", await response.text());
+      return null;
+    }
+
+    const data = await response.json();
+    return data.folders;
+  } catch (error) {
+    console.error("Erreur serveur :", error);
+    return null;
+  }
+}
