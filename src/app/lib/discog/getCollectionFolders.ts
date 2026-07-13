@@ -1,11 +1,11 @@
-import { USER_AGENT } from "@/app/constants/api";
+import { USER_AGENT, COOKIES } from "@/app/constants/api";
 import { cookies } from "next/headers";
 import { oAuthSignature } from "./utils";
 
 export async function getCollectionFolders({ username }: { username: string }) {
   const cookieStore = await cookies();
-  const userToken = cookieStore.get("discogs_access_token")?.value;
-  const userSecret = cookieStore.get("discogs_access_secret")?.value;
+  const userToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
+  const userSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;
 
   if (!userToken || !userSecret) {
     throw new Error("Utilisateur non authentifié");
