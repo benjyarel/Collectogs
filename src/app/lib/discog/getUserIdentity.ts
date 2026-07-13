@@ -1,27 +1,29 @@
 import { OauthUser } from "@/app/types";
 import { cookies } from "next/headers";
 import { COOKIES, DISCOGS_URL, USER_AGENT } from "@/app/constants/api";
+import { oAuthSignature } from "./utils";
 export const getDiscogIdentity = async (): Promise<OauthUser | null> => {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
-  const accessSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;
+  const userToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
+  const userSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;
 
-  if (!accessToken || !accessSecret) {
+  if (!userToken || !userSecret) {
     console.warn("Unidentified user");
     return null;
   }
 
   const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
+  const signature = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
 
-  const timestamp = Date.now().toString();
-  const nonce = timestamp + Math.random().toString(36).substring(2);
-
-  const signature = `${DISCOG_CONSUMER_SECRET}&${accessSecret}`;
-  const authHeader = `OAuth oauth_consumer_key="${DISCOG_CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_token="${accessToken}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}"`;
+  const authorizationHeaders = oAuthSignature({
+    consumerKey: DISCOG_CONSUMER_KEY || "",
+    userToken,
+    signature,
+  });
 
   const response = await fetch(DISCOGS_URL.userIdentity, {
     headers: {
-      Authorization: authHeader,
+      Authorization: authorizationHeaders,
       "User-Agent": USER_AGENT,
     },
   });

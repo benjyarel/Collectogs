@@ -1,5 +1,6 @@
 import { USER_AGENT } from "@/app/constants/api";
 import { cookies } from "next/headers";
+import { oAuthSignature } from "./utils";
 
 export async function getCollectionFolders({ username }: { username: string }) {
   const cookieStore = await cookies();
@@ -12,12 +13,13 @@ export async function getCollectionFolders({ username }: { username: string }) {
 
   const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
 
-  const timestamp = Math.floor(Date.now() / 1000).toString();
-  const nonce = timestamp + Math.random().toString(36).substring(2);
-
   const signature = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
 
-  const authHeader = `OAuth oauth_consumer_key="${DISCOG_CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_token="${userToken}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_version="1.0"`;
+  const authorizationHeaders = oAuthSignature({
+    consumerKey: DISCOG_CONSUMER_KEY || "",
+    userToken,
+    signature,
+  });
 
   try {
     const response = await fetch(
@@ -25,7 +27,7 @@ export async function getCollectionFolders({ username }: { username: string }) {
       {
         method: "GET",
         headers: {
-          Authorization: authHeader,
+          Authorization: authorizationHeaders,
           "User-Agent": USER_AGENT,
         },
         cache: "no-store",
@@ -36,8 +38,8 @@ export async function getCollectionFolders({ username }: { username: string }) {
       return null;
     }
 
-    const data = await response.json();
-    return data.folders;
+    const { folders } = await response.json();
+    return folders;
   } catch {
     return null;
   }
