@@ -1,6 +1,10 @@
 "use client";
 import { OauthUser } from "@/app/types";
-export const PageContent = ({ discogUser }: { discogUser: OauthUser }) => {
+export const PageContent = ({
+  discogUser,
+}: {
+  discogUser: OauthUser | null;
+}) => {
   const getRequestToken = async () => {
     try {
       const res = await fetch("/api/discog/auth");
@@ -16,7 +20,7 @@ export const PageContent = ({ discogUser }: { discogUser: OauthUser }) => {
   };
   return (
     <>
-      <button onClick={getRequestToken}>Login</button>
+      {!discogUser && <button onClick={getRequestToken}>Login</button>}
 
       <h1>Collectog</h1>
       {discogUser && (

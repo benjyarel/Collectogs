@@ -1,19 +1,21 @@
 "use client";
-import { getUserFolders } from "@/app/lib/discog/getUserFolders";
+import { fetchCollectionFolders } from "@/app/actions/fetchCollectionFolders";
 import { CollectionFolder } from "@/app/types";
 import { useState } from "react";
-export const FoldersList = () => {
-  const [foldersJson, setFoldersJson] = useState({ folders: [] });
+export const FoldersList = ({ username }: { username: string }) => {
+  const [folders, setFolders] = useState<CollectionFolder[]>([]);
 
   const handleOnGetUserFolders = async () => {
-    const data = await getUserFolders();
-    setFoldersJson(data);
+    const { success, data } = await fetchCollectionFolders(username);
+    if (success) {
+      setFolders(data);
+    }
   };
   return (
     <>
       <button onClick={handleOnGetUserFolders}>Get folders</button>
       <ul>
-        {foldersJson.folders.map(({ id, name, count }: CollectionFolder) => (
+        {folders.map(({ id, name, count }: CollectionFolder) => (
           <li key={id}>
             {name} ({count})
           </li>
