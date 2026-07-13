@@ -7,7 +7,7 @@ export default async function Home() {
   return (
     <main>
       <PageContent discogUser={discogUser} />
-      <FoldersList />
+      {discogUser && <FoldersList username={discogUser.username} />}
     </main>
   );
 }

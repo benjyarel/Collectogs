@@ -1,6 +1,7 @@
+import { OauthUser } from "@/app/types";
 import { cookies } from "next/headers";
 import { COOKIES, DISCOGS_URL, USER_AGENT } from "@/app/constants/api";
-export const getDiscogIdentity = async () => {
+export const getDiscogIdentity = async (): Promise<OauthUser | null> => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
   const accessSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;

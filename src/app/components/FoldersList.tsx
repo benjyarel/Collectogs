@@ -1,14 +1,14 @@
 "use client";
-import { fetchUserFolders } from "@/app/actions/fetchuserFolders";
+import { fetchCollectionFolders } from "@/app/actions/fetchCollectionFolders";
 import { CollectionFolder } from "@/app/types";
 import { useState } from "react";
-export const FoldersList = () => {
+export const FoldersList = ({ username }: { username: string }) => {
   const [folders, setFolders] = useState<CollectionFolder[]>([]);
 
   const handleOnGetUserFolders = async () => {
-    const action = await fetchUserFolders("benyarel");
-    if (action.success) {
-      setFolders(action.data);
+    const { success, data } = await fetchCollectionFolders(username);
+    if (success) {
+      setFolders(data);
     }
   };
   return (

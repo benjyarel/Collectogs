@@ -1,7 +1,7 @@
 import { USER_AGENT } from "@/app/constants/api";
 import { cookies } from "next/headers";
 
-export async function getUserFolders({ username }: { username: string }) {
+export async function getCollectionFolders({ username }: { username: string }) {
   const cookieStore = await cookies();
   const userToken = cookieStore.get("discogs_access_token")?.value;
   const userSecret = cookieStore.get("discogs_access_secret")?.value;
@@ -12,7 +12,6 @@ export async function getUserFolders({ username }: { username: string }) {
 
   const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
 
-  // CORRECTION CRUCIALE : Math.floor(Date.now() / 1000) pour passer en SECONDES
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const nonce = timestamp + Math.random().toString(36).substring(2);
 
@@ -34,14 +33,12 @@ export async function getUserFolders({ username }: { username: string }) {
     );
 
     if (!response.ok) {
-      console.error("Échec Dossiers:", await response.text());
       return null;
     }
 
     const data = await response.json();
     return data.folders;
-  } catch (error) {
-    console.error("Erreur serveur :", error);
+  } catch {
     return null;
   }
 }
