@@ -12,9 +12,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Missing User" }, { status: 400 });
   }
   const cookieStore = await cookies();
-  const collectogRequestTokens = cookieStore.get(COOKIES.consumerRequestTokens);
-  const tokens = collectogRequestTokens
-    ? Object.fromEntries(new URLSearchParams(collectogRequestTokens.value))
+  const collectogsRequestTokens = cookieStore.get(
+    COOKIES.consumerRequestTokens,
+  );
+  const tokens = collectogsRequestTokens
+    ? Object.fromEntries(new URLSearchParams(collectogsRequestTokens.value))
     : { oauth_token: "", oauth_token_secret: "" };
 
   const timestamp = Date.now().toString();

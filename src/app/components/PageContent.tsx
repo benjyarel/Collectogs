@@ -22,7 +22,7 @@ export const PageContent = ({
     <>
       {!discogUser && <button onClick={getRequestToken}>Login</button>}
 
-      <h1>Collectog</h1>
+      <h1>Collectogs</h1>
       {discogUser && (
         <div>
           <h2>Identité Discogs</h2>

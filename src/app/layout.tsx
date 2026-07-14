@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Collectog",
+  title: "Collectogs",
   description:
     "Find the next album you're looking for, and add it to your collection.",
 };
