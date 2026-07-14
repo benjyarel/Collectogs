@@ -1,4 +1,4 @@
-export const USER_AGENT = "Collectog/0.1";
+export const USER_AGENT = "Collectogs/0.1";
 
 export const DISCOGS_URL = {
   oauthRequestToken: "https://api.discogs.com/oauth/request_token",
