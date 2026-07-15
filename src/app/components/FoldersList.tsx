@@ -1,7 +1,7 @@
 "use client";
 import { fetchCollectionFolders } from "@/app/actions/fetchCollectionFolders";
 import { fetchCollectionFolderContent } from "@/app/actions/fetchCollectionFolderContent";
-import { CollectionFolder } from "@/app/types";
+import { Artist, CollectionFolder } from "@/app/types";
 import { useState } from "react";
 export const FoldersList = ({ username }: { username: string }) => {
   const [folders, setFolders] = useState<CollectionFolder[]>([]);
@@ -39,7 +39,7 @@ export const FoldersList = ({ username }: { username: string }) => {
       </ul>
       <h2>Available Artists</h2>
       <ul>
-        {artists.map((artist) => (
+        {artists.map((artist: Artist) => (
           <li key={artist.id}>{artist.name}</li>
         ))}
       </ul>
