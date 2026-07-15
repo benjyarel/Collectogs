@@ -5,6 +5,7 @@ import {
   Artist,
   Release,
 } from "@/app/types";
+import { getFolderReleases } from "@/app/lib/discog/getFolderReleases";
 
 export interface DiscogsCollectionResponse {
   pagination: DiscogsPagination;
@@ -20,15 +21,16 @@ export const fetchCollectionFolderContent = async (
     return;
   }
 
-  const response = await fetch(
-    `https://api.discogs.com/users/${username}/collection/folders/${folderId}/releases`,
-  );
+  const releases = await getFolderReleases(username, folderId)
 
-  // pagination and releases
-  const data = await response.json();
+  if(!releases) {
+     return { success: false, releases: [], artists: [] };
+  }
 
-  if (data.releases) {
-    const { uniqueReleasesMap, uniqueArtistsMap } = data.releases.reduce(
+
+
+
+    const { uniqueReleasesMap, uniqueArtistsMap } = releases.reduce(
       (
         acc: {
           uniqueArtistsMap: Map<number, Artist>;
@@ -46,11 +48,10 @@ export const fetchCollectionFolderContent = async (
           thumb,
         } = release.basic_information;
 
-        const primaryArtist = artists?.[0];
-        const artistId = primaryArtist?.id;
-        const artistName = primaryArtist?.name;
+        const {id: artistId, name: artistName} = artists?.[0];
+    
 
-        if (artistId && artistName) {
+        if (artistId) {
           if (!acc.uniqueArtistsMap.has(artistId)) {
             acc.uniqueArtistsMap.set(artistId, {
               id: artistId,
@@ -68,12 +69,12 @@ export const fetchCollectionFolderContent = async (
         }
 
         acc.uniqueReleasesMap.set(master_id, {
-          artistName: artistName || "Artiste Inconnu",
+          artistName: artistName || "Unknown Artist",
           artistId: artistId || 0,
-          title: title,
+          title,
           masterId: master_id,
           masterUrl: master_url,
-          year: year,
+          year,
           coverImageUrl: cover_image,
           thumbImageUrl: thumb,
         });
@@ -93,9 +94,6 @@ export const fetchCollectionFolderContent = async (
         a.name.localeCompare(b.name),
       ),
     };
-  }
+  
 
-  return { success: false, releases: [], artists: [] };
-
-  // todo: handle pagination
 };
