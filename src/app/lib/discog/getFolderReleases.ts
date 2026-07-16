@@ -1,9 +1,17 @@
+import {DiscogsRelease} from "@/app/types"
 export const getFolderReleases = async (username: string, folderId: number) => {
-  const response = await fetch(
-    `https://api.discogs.com/users/${username}/collection/folders/${folderId}/releases`,
-  );
+let allReleases: DiscogsRelease[] = [];
+  let nextUrl: string | undefined = `https://api.discogs.com/users/${username}/collection/folders/${folderId}/releases`;
 
-  // pagination and releases
-  const data = await response.json();
-  return data.releases;
+  while (nextUrl) {
+    // TODO: Enhance typing
+    const response = await fetch(nextUrl);
+    const data = await response.json();
+
+    allReleases = [...allReleases, ...data.releases];
+
+    nextUrl = data.pagination?.urls?.next;
+  }
+
+  return allReleases;
 }
