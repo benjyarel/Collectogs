@@ -1,6 +1,7 @@
 "use client";
 import { fetchCollectionFolders } from "@/app/actions/fetchCollectionFolders";
 import { fetchCollectionFolderContent } from "@/app/actions/fetchCollectionFolderContent";
+import {fetchArtistReleases} from '@/app/actions/fetchArtistReleases'
 import { Artist, CollectionFolder } from "@/app/types";
 import { useState } from "react";
 export const FoldersList = ({ username }: { username: string }) => {
@@ -27,6 +28,12 @@ export const FoldersList = ({ username }: { username: string }) => {
     }
   };
 
+  const handleOnArtistClick = async (artist: Artist) => {
+    console.log("click on ", artist.name)
+    const response = await fetchArtistReleases(artist)
+    console.log("on artist click", response)
+  }
+
   return (
     <>
       <button onClick={handleOnGetUserFolders}>Get folders</button>
@@ -40,7 +47,7 @@ export const FoldersList = ({ username }: { username: string }) => {
       <h2>Available Artists</h2>
       <ul>
         {artists.map((artist: Artist) => (
-          <li key={artist.id}>{artist.name}</li>
+          <li onClick={() => handleOnArtistClick(artist)} key={artist.id}>{artist.name}</li>
         ))}
       </ul>
       <h2>Selected folder data ({folderReleases.length})</h2>
