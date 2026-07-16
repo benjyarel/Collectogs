@@ -30,7 +30,7 @@ export async function getCollectionFolders({ username }: { username: string }) {
           Authorization: authorizationHeaders,
           "User-Agent": USER_AGENT,
         },
-        cache: "no-store",
+      
       },
     );
 
