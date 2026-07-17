@@ -30,12 +30,7 @@ export type Release = {
 
 // ----- DISCOGS API -----
 
-export interface DiscogsPaginationUrls {
-  first?: string;
-  prev?: string;
-  next?: string;
-  last?: string;
-}
+
 
 export interface DiscogsPagination {
   per_page: number;
@@ -43,6 +38,13 @@ export interface DiscogsPagination {
   page: number;
   items: number;
   urls: DiscogsPaginationUrls;
+};
+
+export interface DiscogsPaginationUrls {
+  first?: string;
+  prev?: string;
+  next?: string;
+  last?: string;
 }
 
 export interface DiscogsFormat {
@@ -97,4 +99,28 @@ export interface DiscogsRelease {
   rating: number;
   basic_information: DiscogsBasicInformation;
   notes?: DiscogsNote[];
+  type: string
+};
+
+export interface DiscogsMaster {
+  id: number;
+  title: string;
+  type: "master";
+  main_release: number;
+  artist: string;
+  role: string;
+  format: string[];
+  resource_url: string;
+  year: number;
+  thumb: string;
+  stats: {
+    community: {
+      in_wantlist: number;
+      in_collection: number;
+    };
+    user: {
+      in_wantlist: number;
+      in_collection: number;
+    };
+  };
 }
