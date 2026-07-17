@@ -109,6 +109,7 @@ export interface DiscogsMaster {
   main_release: number;
   artist: string;
   role: string;
+  format: string[];
   resource_url: string;
   year: number;
   thumb: string;
