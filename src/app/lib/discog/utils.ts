@@ -1,3 +1,6 @@
+import { USER_AGENT, COOKIES } from "@/app/constants/api";
+import { cookies } from "next/headers";
+
 const timestamp = () => {
   // must return timestamp in seconds to satisfy Discogs API for authenticated requests
   return Math.floor(Date.now() / 1000).toString();
@@ -23,3 +26,30 @@ export const oAuthSignature = ({
 }: Record<string, string>): string => {
   return `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${nonce()}", oauth_token="${userToken}", oauth_signature="${signature}", oauth_timestamp="${timestamp()}", oauth_signature_method="PLAINTEXT", oauth_version="1.0"`;
 };
+
+export const authentifiedFetch = async (url: string, options?: RequestInit) => {
+  const cookieStore = await cookies();
+  const userToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
+  const userSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;
+  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
+
+  const signature = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
+
+  if (!userToken || !userSecret) {
+    throw new Error("Unauthorized user token");
+  }
+
+  const authorizationHeaders = oAuthSignature({
+    consumerKey: DISCOG_CONSUMER_KEY || "",
+    userToken,
+    signature,
+  });
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      Authorization: authorizationHeaders,
+      "User-Agent": USER_AGENT,
+    },
+  })
+}

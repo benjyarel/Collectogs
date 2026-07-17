@@ -1,10 +1,12 @@
 import { DiscogsRelease } from "@/app/types"
+import { authentifiedFetch } from "./utils";
+
 export const getFolderReleases = async (username: string, folderId: number) => {
   let allReleases: DiscogsRelease[] = [];
   let nextUrl: string = `https://api.discogs.com/users/${username}/collection/folders/${folderId}/releases`;
 
   while (nextUrl) {
-    const response = await fetch(nextUrl);
+    const response = await authentifiedFetch(nextUrl);
     const data = await response.json();
 
     allReleases = [...allReleases, ...data.releases];
