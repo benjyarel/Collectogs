@@ -1,3 +1,6 @@
+import { USER_AGENT, COOKIES } from "@/app/constants/api";
+import { cookies } from "next/headers";
+
 const timestamp = () => {
   // must return timestamp in seconds to satisfy Discogs API for authenticated requests
   return Math.floor(Date.now() / 1000).toString();
@@ -23,3 +26,44 @@ export const oAuthSignature = ({
 }: Record<string, string>): string => {
   return `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${nonce()}", oauth_token="${userToken}", oauth_signature="${signature}", oauth_timestamp="${timestamp()}", oauth_signature_method="PLAINTEXT", oauth_version="1.0"`;
 };
+
+/**
+ * Performs an authenticated fetch against the Discogs API using OAuth 1.0a.
+ *
+ * Reads the current user's OAuth token and secret from cookies, combines them
+ * with the app's consumer credentials to build the OAuth authorization header,
+ * and issues the request with that header plus the required User-Agent.
+ *
+ * @param url - The Discogs API endpoint to request.
+ * @param options - Optional fetch options (method, body, headers, etc.).
+ *   Any provided headers are merged with the Authorization and User-Agent headers.
+ * @returns A promise resolving to the fetch `Response`.
+ * @throws {Error} If the user's OAuth token or secret is missing from cookies.
+ */
+
+export const authentifiedFetch = async (url: string, options?: RequestInit) => {
+  const cookieStore = await cookies();
+  const userToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
+  const userSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;
+  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
+
+  const signingKey = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
+
+  if (!userToken || !userSecret) {
+    throw new Error("Unauthorized user token");
+  }
+
+  const authorizationHeaders = oAuthSignature({
+    consumerKey: DISCOG_CONSUMER_KEY || "",
+    userToken,
+    signature: signingKey,
+  });
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      Authorization: authorizationHeaders,
+      "User-Agent": USER_AGENT,
+    },
+  })
+}
