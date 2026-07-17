@@ -1,10 +1,9 @@
-import {DiscogsRelease} from "@/app/types"
+import { DiscogsRelease } from "@/app/types"
 export const getFolderReleases = async (username: string, folderId: number) => {
-let allReleases: DiscogsRelease[] = [];
-  let nextUrl: string | undefined = `https://api.discogs.com/users/${username}/collection/folders/${folderId}/releases`;
+  let allReleases: DiscogsRelease[] = [];
+  let nextUrl: string = `https://api.discogs.com/users/${username}/collection/folders/${folderId}/releases`;
 
   while (nextUrl) {
-    // TODO: Enhance typing
     const response = await fetch(nextUrl);
     const data = await response.json();
 
