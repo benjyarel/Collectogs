@@ -50,7 +50,8 @@ export const authentifiedFetch = async (url: string, options?: RequestInit) => {
   const signingKey = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
 
   if (!userToken || !userSecret) {
-    throw new Error("Unauthorized user token");
+    console.warn("User tokens not provided.")
+    return;
   }
 
   const authorizationHeaders = oAuthSignature({
