@@ -1,14 +1,15 @@
 import { FoldersList } from "@/app/components/FoldersList";
 import { getDiscogIdentity } from "@/app/lib/discog/getUserIdentity";
+import { fetchUserInformations } from "@/app/actions/fetchUserInformations"
 import { Header } from './components/Header'
 export default async function Home() {
-  const discogUser = await getDiscogIdentity();
-
+  const userIdentity = await getDiscogIdentity();
+  const { user } = await fetchUserInformations(userIdentity?.resource_url)
 
   return (
     <main>
-      <Header discogUser={discogUser} />
-      {discogUser && <FoldersList username={discogUser.username} />}
+      <Header discogUser={user} />
+      {user && <FoldersList username={user.username} />}
     </main>
   );
 }

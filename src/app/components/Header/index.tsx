@@ -1,14 +1,14 @@
 "use client"
 import Link from "next/link"
-import { OauthUser } from "@/app/types";
+import { DiscogUser } from "@/app/types";
 import { LoginButton } from "@/app/components/LoginButton"
+
 import styles from "./index.module.css"
+
 export const Header = ({ discogUser }: {
-    discogUser: OauthUser | null;
+    discogUser: DiscogUser | null;
 }) => {
 
-
-    console.log(discogUser)
     return (
         <nav className={styles["page-header"]}>
             <Link className={styles.logo} href="/" aria-label="Homepage">
@@ -16,13 +16,13 @@ export const Header = ({ discogUser }: {
                     Collectogs
                 </span>
             </Link>
-            {discogUser ? <Avatar /> : <LoginButton />}
+            {discogUser ? <Avatar url={discogUser.avatar_url} /> : <LoginButton />}
         </nav>
     )
 }
 
 
 
-const Avatar = () => {
-    return <img alt="username avatar" className={styles.avatar} />
+const Avatar = ({ url }: { url: DiscogUser["avatar_url"] }) => {
+    return <img alt="user avatar" className={styles.avatar} src={url} />
 }
