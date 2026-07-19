@@ -1,16 +1,23 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --white: #ffffff;
+  --black: #181818;
+  --gray: #e9e9eb;
+  --border-radius: 10px;
+  --border: solid 1px var(--gray);
+  --box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 html,
 body {
+  color: var(--black);
+  background-color: var(--white);
   max-width: 100vw;
+}
+
+.btn {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--white);
+  background-color: var(--black);
 }

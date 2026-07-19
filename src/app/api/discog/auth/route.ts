@@ -28,7 +28,7 @@ export const GET = async () => {
     if (!response.ok) {
       const errorText = await response.text();
       return NextResponse.json(
-        { error: "Erreur API Discogs", details: errorText },
+        { error: "Discog's Api Error", details: errorText },
         { status: response.status },
       );
     }

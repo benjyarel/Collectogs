@@ -4,7 +4,12 @@ import { DISCOGS_URL } from "@/app/constants/api";
 import { authentifiedFetch } from "./utils";
 
 export const getDiscogIdentity = async (): Promise<OauthUser | null> => {
+
   const response = await authentifiedFetch(DISCOGS_URL.userIdentity);
+
+  if (!response) {
+    return null
+  }
 
   if (!response.ok) {
     console.error(

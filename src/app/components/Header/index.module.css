@@ -1,0 +1,28 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--white);
+    border: var(--border);
+}
+
+.logo {
+    text-decoration: none;
+    color: inherit;
+
+    .text {
+        font-size: x-large;
+        font-weight: bold;
+    }
+}
