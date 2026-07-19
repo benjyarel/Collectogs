@@ -1,3 +1,35 @@
-.test {
-    color: green;
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: var(--white);
+}
+
+.logo {
+    text-decoration: none;
+    color: inherit;
+
+    .text {
+        font-size: x-large;
+        font-weight: bold;
+    }
+}
+
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--background-color);
+    border: solid 1px var(--black);
+}
+
+.btn {
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--white);
+    background-color: var(--black);
+
 }
