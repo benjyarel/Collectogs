@@ -3,8 +3,18 @@
     justify-content: space-between;
     align-items: center;
     padding: 4px;
-    border-radius: 4px;
     background-color: var(--white);
+    border-radius: var(--border-radius);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--white);
+    border: var(--border);
 }
 
 .logo {
@@ -15,21 +25,4 @@
         font-size: x-large;
         font-weight: bold;
     }
-}
-
-
-.avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: var(--background-color);
-    border: solid 1px var(--black);
-}
-
-.btn {
-    padding: 4px 8px;
-    border-radius: 4px;
-    color: var(--white);
-    background-color: var(--black);
-
 }

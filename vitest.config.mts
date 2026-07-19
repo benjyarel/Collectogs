@@ -6,5 +6,7 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
     environment: "jsdom",
+    globals: true, // ensure Dom is cleaned up after a test assert
+
   },
 });
