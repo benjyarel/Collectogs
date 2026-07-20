@@ -3,16 +3,13 @@
 import { ChangeEvent } from 'react'
 import { CollectionFolder } from "@/app/types";
 
-export const FolderSelect = ({ folders }: { folders: CollectionFolder[] }) => {
-    const onFoldersChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        console.log(e.target.value)
-        return e.target.value;
-    }
+export const FolderSelect = ({ folders, onChange }: { folders: CollectionFolder[]; onChange: (e: ChangeEvent<HTMLSelectElement>) => void }) => {
     return (
         <>
             <label htmlFor="folders">Folder:</label>
-            <select onChange={onFoldersChange} name="collection folders" id="folders">
-                {folders.map(({ id, name, count }) => {
+            <select onChange={onChange} name="collection folders" id="folders" defaultValue="">
+                <option value="" disabled>Select a folder</option>
+                {folders?.map(({ id, name, count }) => {
                     return (<option key={id} value={id}>
                         {name} ({count})
                     </option>)

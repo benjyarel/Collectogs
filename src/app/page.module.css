@@ -1,4 +1,11 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 .page-layout {
     display: flex;
-    justify-content: space-between;
+    flex: 1;
+    min-height: 0;
 }
