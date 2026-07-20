@@ -2,11 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px;
-    background-color: var(--white);
-    border-radius: var(--border-radius);
-    border: var(--border);
-    box-shadow: var(--box-shadow);
+
 }
 
 .avatar {

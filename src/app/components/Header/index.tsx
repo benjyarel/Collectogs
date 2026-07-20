@@ -10,7 +10,7 @@ export const Header = ({ discogUser }: {
 }) => {
 
     return (
-        <nav className={styles["page-header"]}>
+        <nav className={"section-block " + styles["page-header"]}>
             <Link className={styles.logo} href="/" aria-label="Homepage">
                 <span className={styles.text}>
                     Collectogs
