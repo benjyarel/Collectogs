@@ -15,7 +15,7 @@ describe("renders", () => {
     })
 
     test("the login button, if user is not authentified", () => {
-        render(<Header discogUser={null} />)
+        render(<Header />)
         expect(screen.getByRole("button")).toBeDefined()
     })
 })
