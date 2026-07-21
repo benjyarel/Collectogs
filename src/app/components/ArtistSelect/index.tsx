@@ -17,7 +17,7 @@ export const ArtistSelect = ({
     }
 
     return (
-        <>
+        <div className="field">
             <label htmlFor="artists">Artist:</label>
             <select
                 id="artists"
@@ -32,6 +32,6 @@ export const ArtistSelect = ({
                     </option>
                 ))}
             </select>
-        </>
+        </div>
     )
 }

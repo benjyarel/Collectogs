@@ -38,3 +38,9 @@ body {
   border: var(--border);
   box-shadow: var(--box-shadow);
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

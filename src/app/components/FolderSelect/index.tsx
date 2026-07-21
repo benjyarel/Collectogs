@@ -5,7 +5,7 @@ import { CollectionFolder } from "@/app/types";
 
 export const FolderSelect = ({ folders, onChange }: { folders: CollectionFolder[]; onChange: (e: ChangeEvent<HTMLSelectElement>) => void }) => {
     return (
-        <>
+        <div className="field">
             <label htmlFor="folders">Folder:</label>
             <select onChange={onChange} name="collection folders" id="folders" defaultValue="">
                 <option value="" disabled>Select a folder</option>
@@ -15,6 +15,6 @@ export const FolderSelect = ({ folders, onChange }: { folders: CollectionFolder[
                     </option>)
                 })}
             </select>
-        </>
+        </div>
     )
 }
