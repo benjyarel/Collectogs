@@ -2,9 +2,16 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+    padding: 8px;
+    background-color: var(--page-background-color);
 }
 
 .page-layout {
     display: flex;
     flex: 1;
+    gap: 16px;
+    min-height: 0;
+    padding-top: 16px;
 }
