@@ -14,9 +14,6 @@ export const getArtistReleases = async (artistName: Artist["name"]) => {
     nextUrl = jsonResponse.pagination?.urls?.next;
   }
 
-
-  return albums.filter(album =>
-    album.format?.includes("Album") && !album.format?.includes("Unofficial Release")
-  );
+  return albums
 
 }
