@@ -4,7 +4,7 @@
     height: 100vh;
     min-height: 0;
     overflow: hidden;
-    padding: 8px;
+    padding: 16px;
     background-color: var(--page-background-color);
 }
 
