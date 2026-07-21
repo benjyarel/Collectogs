@@ -1,16 +1,19 @@
+name: "Code coverage"
 
-name: "[codecov] Run coverage"
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   pull_request:
     branches:
     - main
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 'lts/*'
+    - name: Install dependencies
+      run: npm install
     - name: Run vitest coverage
       run: npx vitest run --coverage
