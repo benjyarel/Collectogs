@@ -1,19 +1,7 @@
 import { expect, test, describe } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { Content } from '.'
-
-const FAKE_RELEASES = [
-    {
-        artistName: 'Radiohead',
-        artistId: 10,
-        title: 'OK Computer',
-        masterId: 100,
-        masterUrl: 'https://fake-api.com/masters/100',
-        year: 1997,
-        coverImageUrl: '',
-        thumbImageUrl: '',
-    },
-]
+import { FAKE_RELEASES } from '@/app/test/mocks'
 
 describe('renders', () => {
     test('a placeholder message when there are no releases', () => {

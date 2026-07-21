@@ -2,11 +2,7 @@ import { expect, test, describe, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ArtistSelect } from '.'
-
-const FAKE_ARTISTS = [
-    { id: 10, name: 'Radiohead' },
-    { id: 11, name: 'Portishead' },
-]
+import { FAKE_ARTISTS } from '@/app/test/mocks'
 
 describe('renders', () => {
     test('a placeholder message when there are no artists', () => {
