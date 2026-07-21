@@ -21,7 +21,6 @@
     flex-direction: column;
     gap: 16px;
     padding: 16px;
-    /* TODO: adjust to real left panel size */
     width: 25%;
 }
 
