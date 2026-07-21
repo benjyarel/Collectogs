@@ -2,7 +2,7 @@
 
 import { ChangeEvent } from "react";
 import { Artist, CollectionFolder } from "@/app/types";
-import styles from "./index.module.css"
+import styles from "./LeftPanel.module.css"
 import { FolderSelect } from "@/app/components/FolderSelect";
 import { ArtistSelect } from "@/app/components/ArtistSelect";
 

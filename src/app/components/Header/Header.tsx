@@ -3,7 +3,7 @@ import Link from "next/link"
 import { DiscogUser } from "@/app/types";
 import { LoginButton } from "@/app/components/LoginButton"
 
-import styles from "./index.module.css"
+import styles from "./Header.module.css"
 
 export const Header = ({ discogUser }: {
     discogUser: DiscogUser | null;

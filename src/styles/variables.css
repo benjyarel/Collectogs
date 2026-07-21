@@ -1,0 +1,15 @@
+:root {
+
+  /* ---- Color tokens --- */
+  --white: #ffffff;
+  --black: #181818;
+  --light-gray: #fafafa;
+  --gray: #e9e9eb;
+
+  /* ---- base block CSS attributes--- */
+  --page-background-color: var(--light-gray);
+  --border-radius: 10px;
+  --border: solid 1px var(--gray);
+  --box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px;
+
+}
