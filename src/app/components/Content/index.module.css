@@ -1,0 +1,15 @@
+.content {
+    flex: 1;
+    overflow-y: auto;
+    font-size: 1.25rem;
+}
+
+.content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.content li {
+    padding: 8px 0;
+}
