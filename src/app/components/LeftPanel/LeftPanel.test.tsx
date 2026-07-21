@@ -2,14 +2,7 @@ import { expect, test, describe, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LeftPanel } from '.'
-
-const FAKE_FOLDERS = [
-    { id: 1, name: 'All', count: 42, resource_url: 'https://fake-api.com/folders/1' },
-]
-
-const FAKE_ARTISTS = [
-    { id: 10, name: 'Radiohead' },
-]
+import { FAKE_FOLDERS, FAKE_ARTISTS } from '@/app/test/mocks'
 
 describe('renders', () => {
     test('the folder select and a loading message while artists are loading', () => {

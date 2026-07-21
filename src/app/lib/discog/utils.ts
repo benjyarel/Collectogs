@@ -28,6 +28,17 @@ export const oAuthSignature = ({
 };
 
 /**
+ * Thrown by {@link authentifiedFetch} when the user's OAuth token or secret
+ * is missing from cookies, i.e. the user isn't logged in yet.
+ */
+export class MissingDiscogsAuthError extends Error {
+  constructor() {
+    super("Missing Discogs OAuth tokens");
+    this.name = "MissingDiscogsAuthError";
+  }
+}
+
+/**
  * Performs an authenticated fetch against the Discogs API using OAuth 1.0a.
  *
  * Reads the current user's OAuth token and secret from cookies, combines them
@@ -38,21 +49,20 @@ export const oAuthSignature = ({
  * @param options - Optional fetch options (method, body, headers, etc.).
  *   Any provided headers are merged with the Authorization and User-Agent headers.
  * @returns A promise resolving to the fetch `Response`.
- * @throws {Error} If the user's OAuth token or secret is missing from cookies.
+ * @throws {MissingDiscogsAuthError} If the user's OAuth token or secret is missing from cookies.
  */
 
-export const authentifiedFetch = async (url: string, options?: RequestInit) => {
+export const authentifiedFetch = async (url: string, options?: RequestInit): Promise<Response> => {
   const cookieStore = await cookies();
   const userToken = cookieStore.get(COOKIES.userDiscogToken)?.value;
   const userSecret = cookieStore.get(COOKIES.userDiscogSecret)?.value;
   const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
 
-  const signingKey = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
-
   if (!userToken || !userSecret) {
-    console.warn("User tokens not provided.")
-    return;
+    throw new MissingDiscogsAuthError();
   }
+
+  const signingKey = `${DISCOG_CONSUMER_SECRET}&${userSecret}`;
 
   const authorizationHeaders = oAuthSignature({
     consumerKey: DISCOG_CONSUMER_KEY || "",

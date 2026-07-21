@@ -2,11 +2,7 @@ import { expect, test, describe, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FolderSelect } from '.'
-
-const FAKE_FOLDERS = [
-    { id: 1, name: 'All', count: 42, resource_url: 'https://fake-api.com/folders/1' },
-    { id: 2, name: 'Vinyl', count: 12, resource_url: 'https://fake-api.com/folders/2' },
-]
+import { FAKE_FOLDERS } from '@/app/test/mocks'
 
 describe('renders', () => {
     test('a placeholder option, disabled and selected by default', () => {

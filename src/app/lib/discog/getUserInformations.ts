@@ -1,10 +1,9 @@
-import { OauthUser, DiscogUser } from "@/app/types";
+import { DiscogsOauthUserIdentity, DiscogsUser } from "@/app/types";
 import { authentifiedFetch } from "./utils"
-export const getUserInformations = async (ressourceUrl: OauthUser["resource_url"]): Promise<DiscogUser> => {
+export const getUserInformations = async (ressourceUrl: DiscogsOauthUserIdentity["resource_url"]): Promise<DiscogsUser> => {
     const response = await authentifiedFetch(ressourceUrl)
 
-
-    if (!response || !response.ok) {
+    if (!response.ok) {
         throw Error("Error during fetching user informations")
     }
 

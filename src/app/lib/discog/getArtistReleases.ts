@@ -7,11 +7,6 @@ export const getArtistReleases = async (artistName: Artist["name"]) => {
 
   while (nextUrl) {
     const response = await authentifiedFetch(nextUrl);
-
-    if (!response) {
-      return []
-    }
-
     const jsonResponse = await response.json();
 
     albums = [...albums, ...jsonResponse.results];
