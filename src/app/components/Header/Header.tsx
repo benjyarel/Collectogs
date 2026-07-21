@@ -1,12 +1,12 @@
 "use client"
 import Link from "next/link"
-import { DiscogUser } from "@/app/types";
+import { DiscogsUser } from "@/app/types";
 import { LoginButton } from "@/app/components/LoginButton"
 
 import styles from "./Header.module.css"
 
 export const Header = ({ discogUser }: {
-    discogUser: DiscogUser | null;
+    discogUser: DiscogsUser | null;
 }) => {
 
     return (
@@ -23,6 +23,6 @@ export const Header = ({ discogUser }: {
 
 
 
-const Avatar = ({ url }: { url: DiscogUser["avatar_url"] }) => {
+const Avatar = ({ url }: { url: DiscogsUser["avatar_url"] }) => {
     return <img alt="user avatar" className={styles.avatar} src={url} />
 }

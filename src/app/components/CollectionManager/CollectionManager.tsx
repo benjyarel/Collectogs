@@ -2,11 +2,11 @@
 
 import { ChangeEvent, useState, useTransition } from "react";
 import { fetchCollectionFolderContent } from "@/app/actions/fetchCollectionFolderContent";
-import { Artist, CollectionFolder, DiscogUser, Release } from '@/app/types';
+import { Artist, CollectionFolder, DiscogsUser, Release } from '@/app/types';
 import { Content } from '@/app/components/Content'
 import { LeftPanel } from "@/app/components/LeftPanel"
 
-export const CollectionManager = ({ username, folders }: { username: DiscogUser["username"]; folders: CollectionFolder[] }) => {
+export const CollectionManager = ({ username, folders }: { username: DiscogsUser["username"]; folders: CollectionFolder[] }) => {
     const [artists, setArtists] = useState<Artist[]>([]);
     const [releases, setReleases] = useState<Release[]>([]);
     const [selectedArtistId, setSelectedArtistId] = useState<number | null>(null);

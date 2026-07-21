@@ -1,9 +1,9 @@
 "use server";
 
-import { OauthUser } from "../types";
+import { DiscogsOauthUserIdentity } from "../types";
 import { getUserInformations } from "@/app/lib/discog/getUserInformations"
 export const fetchUserInformations = async (
-    resourceUrl?: OauthUser["resource_url"]
+    resourceUrl?: DiscogsOauthUserIdentity["resource_url"]
 ) => {
     if (!resourceUrl) {
         console.warn("No ressource url provided to fetchUserInformations");

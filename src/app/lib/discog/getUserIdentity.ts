@@ -1,9 +1,9 @@
-import { OauthUser } from "@/app/types";
+import { DiscogsOauthUserIdentity } from "@/app/types";
 
 import { DISCOGS_URL } from "@/app/constants/api";
 import { authentifiedFetch } from "./utils";
 
-export const getDiscogIdentity = async (): Promise<OauthUser | null> => {
+export const getDiscogIdentity = async (): Promise<DiscogsOauthUserIdentity | null> => {
 
   const response = await authentifiedFetch(DISCOGS_URL.userIdentity);
 

@@ -1,4 +1,4 @@
-import { Artist, CollectionFolder, DiscogUser, Release } from '@/app/types'
+import { Artist, CollectionFolder, DiscogsUser, Release } from '@/app/types'
 
 export const FAKE_FOLDERS: CollectionFolder[] = [
     { id: 1, name: 'All', count: 42, resource_url: 'https://fake-api.com/folders/1' },
@@ -23,7 +23,7 @@ export const FAKE_RELEASES: Release[] = [
     },
 ]
 
-export const FAKE_USER: DiscogUser = Object.freeze({
+export const FAKE_USER: DiscogsUser = Object.freeze({
     id: 123,
     resource_url: 'https://fake-api.com/users/Jude',
     uri: 'https://www.fake.com/user/Jude',

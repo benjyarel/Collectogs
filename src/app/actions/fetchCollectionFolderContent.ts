@@ -1,16 +1,10 @@
 "use server";
 import {
-  DiscogsPagination,
   DiscogsRelease,
   Artist,
   Release,
 } from "@/app/types";
 import { getFolderReleases } from "@/app/lib/discog/getFolderReleases";
-
-export interface DiscogsCollectionResponse {
-  pagination: DiscogsPagination;
-  releases: DiscogsRelease[];
-}
 
 export const fetchCollectionFolderContent = async (
   username: string,

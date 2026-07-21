@@ -1,6 +1,6 @@
 
 //provided by https://api.discogs.com/oauth/identity
-export type OauthUser = {
+export type DiscogsOauthUserIdentity = {
   id: number;
   username: string;
   resource_url: string;
@@ -8,7 +8,7 @@ export type OauthUser = {
 };
 
 // provided by https://api.discogs.com/users/{username}
-export type DiscogUser = {
+export type DiscogsUser = {
   id: number;
   resource_url: string;
   uri: string;
@@ -88,20 +88,6 @@ export interface DiscogsPaginationUrls {
   last?: string;
 }
 
-export interface DiscogsFormat {
-  qty: string;
-  descriptions: string[];
-  name: string;
-}
-
-export interface DiscogsLabel {
-  id: number;
-  name: string;
-  catno: string;
-  entity_type: string;
-  resource_url: string;
-}
-
 export interface DiscogsArtist {
   id: number;
   name: string;
@@ -121,16 +107,9 @@ export interface DiscogsBasicInformation {
   year: number;
   thumb: string;
   cover_image: string;
-  formats: DiscogsFormat[];
-  labels: DiscogsLabel[];
   artists: DiscogsArtist[];
   genres: string[];
   styles: string[];
-}
-
-export interface DiscogsNote {
-  field_id: number;
-  value: string;
 }
 
 export interface DiscogsRelease {
@@ -139,7 +118,6 @@ export interface DiscogsRelease {
   folder_id: number;
   rating: number;
   basic_information: DiscogsBasicInformation;
-  notes?: DiscogsNote[];
   type: string
 };
 
