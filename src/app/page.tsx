@@ -15,7 +15,7 @@ export default async function Home() {
     return (<UnloggedHome />)
   }
 
-  const { data: folders } = await fetchCollectionFolders(user.username);
+  const { folders } = await fetchCollectionFolders(user.username);
 
   return (
     <main className={styles.page}>
