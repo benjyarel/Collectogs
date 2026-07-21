@@ -1,5 +1,5 @@
 import { Release } from "@/app/types";
-import styles from "./index.module.css"
+import styles from "./Content.module.css"
 
 export const Content = ({ releases }: { releases: Release[] }) => {
     if (!releases.length) {
