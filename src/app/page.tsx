@@ -12,8 +12,7 @@ export default async function Home() {
   const { user } = await fetchUserInformations(userIdentity?.resource_url)
 
   if (!user) {
-    // TODO Handle initial loading UX, with Suspense
-    return null;
+    return (<UnloggedHome />)
   }
 
   const { data: folders } = await fetchCollectionFolders(user.username);
@@ -26,6 +25,18 @@ export default async function Home() {
       </div>
     </main>
   );
+}
+
+const UnloggedHome = () => {
+  return (
+    <main className={styles.page}>
+      <Header />
+      <div className={styles["page-layout"]}>
+        <div className={"section-block " + styles["empty-left-panel"]}></div>
+        <div className={"section-block " + styles["empty-content"]}></div>
+      </div>
+    </main>
+  )
 }
 
 

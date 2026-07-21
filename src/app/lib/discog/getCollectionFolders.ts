@@ -7,7 +7,7 @@ export async function getCollectionFolders({ username }: { username: string }) {
       `https://api.discogs.com/users/${username}/collection/folders`,
     );
 
-    if (!response || !response.ok) {
+    if (!response.ok) {
       return null;
     }
 

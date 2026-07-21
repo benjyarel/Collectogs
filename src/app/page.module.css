@@ -15,3 +15,17 @@
     min-height: 0;
     padding-top: 16px;
 }
+
+.empty-left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    /* TODO: adjust to real left panel size */
+    width: 25%;
+}
+
+.empty-content {
+    flex: 1;
+    overflow-y: auto;
+}

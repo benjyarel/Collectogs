@@ -6,7 +6,7 @@ import { LoginButton } from "@/app/components/LoginButton"
 import styles from "./Header.module.css"
 
 export const Header = ({ discogUser }: {
-    discogUser: DiscogsUser | null;
+    discogUser?: DiscogsUser;
 }) => {
 
     return (
