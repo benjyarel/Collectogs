@@ -7,6 +7,11 @@ export const getFolderReleases = async (username: string, folderId: number) => {
 
   while (nextUrl) {
     const response = await authentifiedFetch(nextUrl);
+
+    if (!response) {
+      return []
+    }
+
     const data = await response.json();
 
     allReleases = [...allReleases, ...data.releases];
