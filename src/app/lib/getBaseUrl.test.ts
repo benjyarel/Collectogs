@@ -1,43 +1,30 @@
 import { expect, it, describe } from "vitest";
 import { getBaseUrl } from "./getBaseUrl";
 
-const PREVIEW_HOST = "collectogs-46ghi8v5x-benjyarels-projects.vercel.app";
-const PRODUCTION_HOST = "collectogs.vercel.app";
-const LOCAL_URL = "http://localhost:3000";
+const VERCEL_HOST = "collectogs-git-next-deployment-benjyarels-projects.vercel.app";
+const LOCAL_HOST = "localhost:3000";
 
 describe("getBaseUrl", () => {
-  it("uses VERCEL_PROJECT_PRODUCTION_URL in production", () => {
-    const result = getBaseUrl({
-      VERCEL_ENV: "production",
-      VERCEL_URL: PREVIEW_HOST,
-      VERCEL_PROJECT_PRODUCTION_URL: PRODUCTION_HOST,
-      APP_URL: LOCAL_URL,
-    });
+  it("uses the given protocol when provided", () => {
+    const result = getBaseUrl(VERCEL_HOST, "https");
 
-    expect(result).toBe(`https://${PRODUCTION_HOST}`);
+    expect(result).toBe(`https://${VERCEL_HOST}`);
   });
 
-  it("uses VERCEL_URL on preview deployments", () => {
-    const result = getBaseUrl({
-      VERCEL_ENV: "preview",
-      VERCEL_URL: PREVIEW_HOST,
-      VERCEL_PROJECT_PRODUCTION_URL: PRODUCTION_HOST,
-      APP_URL: LOCAL_URL,
-    });
+  it("defaults to http for localhost when no protocol is given", () => {
+    const result = getBaseUrl(LOCAL_HOST);
 
-    expect(result).toBe(`https://${PREVIEW_HOST}`);
+    expect(result).toBe(`http://${LOCAL_HOST}`);
   });
 
-  it("falls back to APP_URL when no Vercel env vars are set", () => {
-    const result = getBaseUrl({
-      APP_URL: LOCAL_URL,
-    });
+  it("defaults to https for non-localhost hosts when no protocol is given", () => {
+    const result = getBaseUrl(VERCEL_HOST);
 
-    expect(result).toBe(LOCAL_URL);
+    expect(result).toBe(`https://${VERCEL_HOST}`);
   });
 
-  it("returns undefined when nothing is configured", () => {
-    const result = getBaseUrl({});
+  it("returns undefined when no host is given", () => {
+    const result = getBaseUrl(null);
 
     expect(result).toBeUndefined();
   });
