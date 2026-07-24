@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 import { USER_AGENT, DISCOGS_URL, COOKIES } from "@/app/constants/api";
 import { getBaseUrl } from "@/app/lib/getBaseUrl";
 export const GET = async () => {
-  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
+  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET, VERCEL_URL, APP_URL } =
+    process.env;
 
   const url = DISCOGS_URL.oauthRequestToken;
 
