@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { USER_AGENT, DISCOGS_URL, COOKIES } from "@/app/constants/api";
+import { getBaseUrl } from "@/app/lib/getBaseUrl";
 export const GET = async () => {
-  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET, VERCEL_URL, APP_URL } =
-    process.env;
+  const { DISCOG_CONSUMER_KEY, DISCOG_CONSUMER_SECRET } = process.env;
 
   const url = DISCOGS_URL.oauthRequestToken;
 
@@ -13,9 +13,11 @@ export const GET = async () => {
   const timestamp = Date.now().toString();
   const nonce = timestamp + Math.random().toString(36).substring(2);
 
-  // VERCEL_URL is auto-injected per deployment (prod/preview/branch) but has no protocol;
-  // APP_URL covers local dev where VERCEL_URL isn't set.
-  const baseUrl = VERCEL_URL ? `https://${VERCEL_URL}` : APP_URL;
+  const headersList = await headers();
+  const baseUrl = getBaseUrl(
+    headersList.get("host"),
+    headersList.get("x-forwarded-proto"),
+  );
   const callbackUrl = `${baseUrl}/api/discog/auth-redirect`;
 
   const authHeader = `OAuth oauth_consumer_key="${DISCOG_CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${timestamp}", oauth_callback="${callbackUrl}", oauth_version="1.0"`;
