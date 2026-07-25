@@ -12,6 +12,8 @@ export const FAKE_ARTISTS: Artist[] = [
 
 export const FAKE_RELEASES: Release[] = [
     {
+        id: 1000,
+        category: 'master',
         artistName: 'Radiohead',
         artistId: 10,
         title: 'OK Computer',

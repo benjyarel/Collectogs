@@ -11,7 +11,15 @@ export type Artist = {
   id: number;
 };
 
+
+// "master": linked to a Discogs master release (main album). "uncategorized": no master_id
+// on the Discogs release (e.g. small compilations, bootlegs) - kept visible but unclassified.
+// Expected to grow (e.g. "compilation", "live") as we refine what the external API gives us.
+export type ReleaseCategory = "master" | "uncategorized";
+
 export type Release = {
+  id: number;
+  category: ReleaseCategory;
   artistName: string;
   artistId: number;
   title: string;
