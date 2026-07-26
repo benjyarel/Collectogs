@@ -6,6 +6,7 @@ import {
   ReleaseCategory,
 } from "@/app/types";
 import { getFolderReleases } from "@/app/lib/discog/getFolderReleases";
+import { artistFromDiscogs, releaseFromDiscogs } from "./mappers";
 
 export const fetchCollectionFolderContent = async (
   username: string,
@@ -26,55 +27,30 @@ export const fetchCollectionFolderContent = async (
 
 
   const { uniqueReleasesMap, uniqueArtistsMap } = releases.reduce(
-    (
-      acc: {
-        uniqueArtistsMap: Map<number, Artist>;
-        uniqueReleasesMap: Map<string, Release>;
-      },
-      release: DiscogsRelease,
-    ) => {
+    (acc, release) => {
+
       const {
         id: releaseId,
         artists,
-        title,
-        master_url,
         master_id,
-        year,
-        cover_image,
-        thumb,
       } = release.basic_information;
 
-      const { id: artistId, name: artistName } = artists?.[0];
+      const { id: artistId } = artists?.[0];
 
       if (artistId) {
         if (!acc.uniqueArtistsMap.has(artistId)) {
-          acc.uniqueArtistsMap.set(artistId, {
-            id: artistId,
-            name: artistName,
-          });
+          acc.uniqueArtistsMap.set(artistId, artistFromDiscogs(release));
         }
       }
 
       const hasMaster = !!master_id && master_id !== 0;
-      const category: ReleaseCategory = hasMaster ? "master" : "uncategorized";
-      const dedupKey = hasMaster ? `master-${master_id}` : `release-${releaseId}`;
+      const releaseKey = hasMaster ? `master-${master_id}` : `release-${releaseId}`;
 
-      if (acc.uniqueReleasesMap.has(dedupKey)) {
+      if (acc.uniqueReleasesMap.has(releaseKey)) {
         return acc;
       }
 
-      acc.uniqueReleasesMap.set(dedupKey, {
-        id: releaseId,
-        category,
-        artistName: artistName || "Unknown Artist",
-        artistId: artistId || 0,
-        title,
-        masterId: master_id,
-        masterUrl: master_url,
-        year,
-        coverImageUrl: cover_image,
-        thumbImageUrl: thumb,
-      });
+      acc.uniqueReleasesMap.set(releaseKey, releaseFromDiscogs(release, hasMaster));
 
       return acc;
     },
