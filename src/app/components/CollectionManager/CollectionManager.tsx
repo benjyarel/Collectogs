@@ -19,6 +19,7 @@ export const CollectionManager = ({ username, folders }: { username: DiscogsUser
             const result = await fetchCollectionFolderContent(username, folderId);
             setArtists(result?.artists ?? []);
             setReleases(result?.releases ?? []);
+            setSelectedArtistId(result?.artists?.[0]?.id ?? null);
         });
     };
 
