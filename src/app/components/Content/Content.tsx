@@ -14,7 +14,8 @@ export const Content = ({ releases }: { releases: Release[] }) => {
             <ul>
                 {mainReleases.map((release) => (
                     <li key={release.id}>
-                        {release.title} ({release.year})
+                        {release.title}
+                        {!!release.year && (<>({release.year})</>)}
                     </li>
                 ))}
             </ul>
@@ -24,7 +25,8 @@ export const Content = ({ releases }: { releases: Release[] }) => {
                     <ul>
                         {uncategorizedReleases.map((release) => (
                             <li key={release.id}>
-                                {release.title} ({release.year})
+                                {release.title}
+                                {!!release.year && (<>({release.year})</>)}
                             </li>
                         ))}
                     </ul>
