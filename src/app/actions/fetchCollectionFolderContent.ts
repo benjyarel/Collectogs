@@ -12,7 +12,8 @@ export const fetchCollectionFolderContent = async (
   username: string,
   folderId: number | null,
 ) => {
-  if (!folderId) {
+
+  if (folderId === null || folderId === undefined) {
     console.warn("No Folder Id was provided, aborting.");
     return;
   }
