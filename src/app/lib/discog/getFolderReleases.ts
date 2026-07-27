@@ -6,7 +6,10 @@ export const getFolderReleases = async (username: string, folderId: number) => {
   let nextUrl: string = `https://api.discogs.com/users/${username}/collection/folders/${folderId}/releases`;
 
   while (nextUrl) {
-    const response = await authentifiedFetch(nextUrl);
+    const response = await authentifiedFetch(nextUrl, {
+      cache: "force-cache",
+      next: { revalidate: 3600, tags: ["folder-releases"] },
+    });
     const data = await response.json();
 
     allReleases = [...allReleases, ...data.releases];
