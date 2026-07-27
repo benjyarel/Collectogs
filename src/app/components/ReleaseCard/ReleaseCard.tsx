@@ -6,7 +6,7 @@ export const ReleaseCard = ({ release }: { release: Release }) => {
             <img className={styles["cover-picture"]} src={release.thumbImageUrl} alt={`cover picture of album ${release.title}`} />
             <div>
                 <p className={styles["release-title"]}>{release.title}</p>
-                {!!release.year && (<p >{release.year}</p>)}
+                {release.year ? (<p>{release.year}</p>) : (<p>----</p>)}
             </div>
         </div >
     )

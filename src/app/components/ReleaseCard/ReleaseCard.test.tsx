@@ -20,9 +20,9 @@ describe('renders', () => {
         expect(screen.getByAltText('cover picture of album OK Computer')).toBeDefined()
     })
 
-    test('no year when the release has none', () => {
+    test('a placeholder if no year provided', () => {
         const releaseWithoutYear: Release = { ...FAKE_RELEASES[0], year: 0 }
         render(<ReleaseCard release={releaseWithoutYear} />)
-        expect(screen.queryByText('0')).toBeNull()
+        expect(screen.getByText('----')).toBeDefined()
     })
 })
