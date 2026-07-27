@@ -22,7 +22,7 @@ export const LeftPanel = ({
     onArtistSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
 }) => {
     return (
-        <div className={"section-block " + styles["left-panel"]}>
+        <div className={styles["left-panel"]}>
             <FolderSelect folders={folders} onChange={onFolderChange} />
             {isLoading ? (
                 <p>Loading artists…</p>
