@@ -5,11 +5,17 @@
     padding: 8px;
     border-radius: var(--border-radius);
     gap: 16px;
+
+    p {
+        margin: 4px;
+    }
+
 }
 
+
 .cover-picture {
-    width: 92px;
-    height: 92px;
+    width: 86px;
+    height: 86px;
     background-color: var(--orange);
     border-radius: var(--border-radius);
 }
