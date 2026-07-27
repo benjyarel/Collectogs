@@ -17,4 +17,8 @@
   --page-background-color: var(--brown);
   --border: solid 1px var(--brown-selected);
   --border-radius: 8px;
+
+  /* ---- Typography --- */
+  --font-body: var(--font-dm-sans), sans-serif;
+  --font-heading: var(--font-space-grotesk), sans-serif;
 }
