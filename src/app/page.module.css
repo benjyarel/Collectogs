@@ -4,16 +4,13 @@
     height: 100vh;
     min-height: 0;
     overflow: hidden;
-    padding: 16px;
     background-color: var(--page-background-color);
 }
 
 .page-layout {
     display: flex;
     flex: 1;
-    gap: 16px;
     min-height: 0;
-    padding-top: 16px;
 }
 
 .empty-left-panel {
@@ -22,6 +19,7 @@
     gap: 16px;
     padding: 16px;
     width: 25%;
+    border-right: var(--border)
 }
 
 .empty-content {

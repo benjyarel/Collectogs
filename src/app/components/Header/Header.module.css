@@ -1,21 +1,23 @@
 .page-header {
+    padding: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    border-bottom: var(--border);
 }
 
 .avatar {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background-color: var(--white);
+    background-color: var(--orange);
     border: var(--border);
 }
 
 .logo {
+    padding-left: 8px;
     text-decoration: none;
-    color: inherit;
+    color: var(--light-brown-selected);
 
     .text {
         font-size: x-large;

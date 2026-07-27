@@ -5,4 +5,5 @@
     padding: 16px;
     min-height: 0;
     overflow-y: auto;
+    border-right: var(--border)
 }

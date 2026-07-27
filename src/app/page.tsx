@@ -32,8 +32,8 @@ const UnloggedHome = () => {
     <main className={styles.page}>
       <Header />
       <div className={styles["page-layout"]}>
-        <div className={"section-block " + styles["empty-left-panel"]}></div>
-        <div className={"section-block " + styles["empty-content"]}></div>
+        <div className={styles["empty-left-panel"]}></div>
+        <div className={styles["empty-content"]}></div>
       </div>
     </main>
   )

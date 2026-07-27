@@ -5,11 +5,16 @@
   --black: #181818;
   --light-gray: #fafafa;
   --gray: #e9e9eb;
+  --brown: #15100C;
+  --brown-highlighted: #211C18;
+  --brown-selected: #362115;
+  --light-brown: #AFA699;
+  --light-brown-highlighted: #D0C4B6;
+  --light-brown-selected: #EEE4D3;
+  --orange: #C56A3E;
 
   /* ---- base block CSS attributes--- */
-  --page-background-color: var(--light-gray);
-  --border-radius: 10px;
-  --border: solid 1px var(--gray);
-  --box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px;
+  --page-background-color: var(--brown);
+  --border: solid 1px var(--brown-selected);
 
 }
