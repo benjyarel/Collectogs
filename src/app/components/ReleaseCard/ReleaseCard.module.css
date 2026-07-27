@@ -1,0 +1,19 @@
+.card {
+    background-color: var(--brown-highlighted);
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: var(--border-radius);
+    gap: 16px;
+}
+
+.cover-picture {
+    width: 92px;
+    height: 92px;
+    background-color: var(--orange);
+    border-radius: var(--border-radius);
+}
+
+.release-title {
+    color: var(--orange)
+}
