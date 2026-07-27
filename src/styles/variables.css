@@ -16,5 +16,5 @@
   /* ---- base block CSS attributes--- */
   --page-background-color: var(--brown);
   --border: solid 1px var(--brown-selected);
-
+  --border-radius: 8px;
 }

@@ -14,7 +14,8 @@ describe('renders', () => {
     test(' a release, with its title and year', () => {
         render(<Content releases={FAKE_RELEASES} />)
 
-        expect(screen.getByText('OK Computer(1997)')).toBeDefined()
+        expect(screen.getByText('OK Computer')).toBeDefined()
+        expect(screen.getByText('1997')).toBeDefined()
     })
 
     test('an "Uncategorized" section for releases without a master', () => {
@@ -34,6 +35,7 @@ describe('renders', () => {
         render(<Content releases={[...FAKE_RELEASES, uncategorizedRelease]} />)
 
         expect(screen.getByText('Uncategorized')).toBeDefined()
-        expect(screen.getByText('Some Bootleg(1975)')).toBeDefined()
+        expect(screen.getByText('Some Bootleg')).toBeDefined()
+        expect(screen.getByText('1975')).toBeDefined()
     })
 })
