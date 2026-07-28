@@ -1,6 +1,9 @@
 import { Release } from "@/app/types"
 import styles from './ReleaseCard.module.css'
-export const ReleaseCard = ({ release }: { release: Release }) => {
+
+type ReleaseCardData = Pick<Release, "id" | "title" | "year" | "thumbImageUrl">;
+
+export const ReleaseCard = ({ release }: { release: ReleaseCardData }) => {
     return (
         <div className={styles.card}>
             <img className={styles["cover-picture"]} src={release.thumbImageUrl} alt={`cover picture of album ${release.title}`} />

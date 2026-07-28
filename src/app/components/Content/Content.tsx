@@ -1,9 +1,9 @@
-import { Release } from "@/app/types";
+import { DiscogsMaster, Release } from "@/app/types";
 import styles from "./Content.module.css"
 import { ArtistHeader } from "@/app/components/ArtistHeader"
 import { ReleaseCard } from "@/app/components/ReleaseCard"
-export const Content = ({ releases }: { releases: Release[] }) => {
 
+export const Content = ({ releases, allReleases = [] }: { releases: Release[]; allReleases?: DiscogsMaster[] }) => {
     if (!releases.length) {
         return <div className={styles.content}>Select a folder to see its albums.</div>;
     }
@@ -11,6 +11,9 @@ export const Content = ({ releases }: { releases: Release[] }) => {
     const artistName = releases[0].artistName
     const mainReleases = releases.filter((release) => release.category === "master");
     const uncategorizedReleases = releases.filter((release) => release.category === "uncategorized");
+    const missingReleases = allReleases.filter(
+        (master) => !releases.some((release) => release.masterId === master.id)
+    );
 
     return (
         <div className={styles.content}>
@@ -29,6 +32,20 @@ export const Content = ({ releases }: { releases: Release[] }) => {
                         {uncategorizedReleases.map((release) => (
                             <li key={release.id}>
                                 <ReleaseCard release={release} />
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
+            {missingReleases.length > 0 && (
+                <>
+                    <h3>Missing albums</h3>
+                    <ul>
+                        {missingReleases.map((master) => (
+                            <li key={master.id}>
+                                <ReleaseCard
+                                    release={{ id: master.id, title: master.title, year: master.year, thumbImageUrl: master.thumb }}
+                                />
                             </li>
                         ))}
                     </ul>
