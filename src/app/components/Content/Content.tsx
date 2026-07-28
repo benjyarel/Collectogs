@@ -2,6 +2,7 @@ import { DiscogsMaster, Release } from "@/app/types";
 import styles from "./Content.module.css"
 import { ArtistHeader } from "@/app/components/ArtistHeader"
 import { ReleaseCard } from "@/app/components/ReleaseCard"
+import { sortByYear } from "@/app/lib/sorting/sortByYear"
 
 export const Content = ({ releases, allReleases = [] }: { releases: Release[]; allReleases?: DiscogsMaster[] }) => {
     if (!releases.length) {
@@ -9,10 +10,10 @@ export const Content = ({ releases, allReleases = [] }: { releases: Release[]; a
     }
 
     const artistName = releases[0].artistName
-    const mainReleases = releases.filter((release) => release.category === "master");
-    const uncategorizedReleases = releases.filter((release) => release.category === "uncategorized");
-    const missingReleases = allReleases.filter(
-        (master) => !releases.some((release) => release.masterId === master.id)
+    const mainReleases = sortByYear(releases.filter((release) => release.category === "master"));
+    const uncategorizedReleases = sortByYear(releases.filter((release) => release.category === "uncategorized"));
+    const missingReleases = sortByYear(
+        allReleases.filter((master) => !releases.some((release) => release.masterId === master.id))
     );
 
     return (
@@ -45,6 +46,7 @@ export const Content = ({ releases, allReleases = [] }: { releases: Release[]; a
                             <li key={master.id}>
                                 <ReleaseCard
                                     release={{ id: master.id, title: master.title, year: master.year, thumbImageUrl: master.thumb }}
+                                    unactive
                                 />
                             </li>
                         ))}

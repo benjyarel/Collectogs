@@ -10,10 +10,5 @@ export const fetchArtistReleases = async (name: Artist['name']) => {
         release.format?.includes("Album") && !release.format?.includes("Unofficial Release")
     );
 
-    // Discogs' search endpoint can list the same master more than once.
-    const uniqueReleases = Array.from(
-        new Map(mainReleases.map(release => [release.id, release])).values()
-    );
-
-    return { success: true, releases: uniqueReleases }
+    return { success: true, releases: mainReleases }
 }

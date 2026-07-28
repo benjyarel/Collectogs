@@ -12,6 +12,10 @@
 
 }
 
+.unactive {
+    filter: grayscale(80%);
+}
+
 
 .cover-picture {
     width: 86px;
