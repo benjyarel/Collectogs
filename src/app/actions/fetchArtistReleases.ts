@@ -2,8 +2,8 @@
 import { Artist } from "@/app/types";
 import { getArtistReleases } from "@/app/lib/discog/getArtistReleases"
 
-export const fetchArtistReleases = async (artist: Artist) => {
-    const releases = await getArtistReleases(artist.name);
+export const fetchArtistReleases = async (name: Artist['name']) => {
+    const releases = await getArtistReleases(name);
 
 
     const mainReleases = releases.filter(release =>

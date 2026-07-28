@@ -15,7 +15,7 @@ export const fetchCollectionFolderContent = async (
 
   if (folderId === null || folderId === undefined) {
     console.warn("No Folder Id was provided, aborting.");
-    return;
+    return { success: false, releases: [], artists: [] };
   }
 
   const releases = await getFolderReleases(username, folderId)

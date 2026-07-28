@@ -19,7 +19,7 @@ describe("fetchCollectionFolderContent", () => {
 
     const result = await fetchCollectionFolderContent("Jude", null);
 
-    expect(result).toBeUndefined();
+    expect(result).toEqual({ success: false, releases: [], artists: [] });
     expect(mockedGetFolderReleases).not.toHaveBeenCalled();
     expect(warnSpy).toHaveBeenCalled();
   });
