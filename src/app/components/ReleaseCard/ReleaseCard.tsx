@@ -1,4 +1,5 @@
 import { Release } from "@/app/types"
+
 import styles from './ReleaseCard.module.css'
 
 type ReleaseCardData = Pick<Release, "id" | "title" | "year" | "thumbImageUrl">;

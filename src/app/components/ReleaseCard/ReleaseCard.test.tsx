@@ -1,7 +1,10 @@
 import { expect, test, describe } from 'vitest'
 import { render, screen } from '@testing-library/react'
+
 import { ReleaseCard } from '.'
+
 import { FAKE_RELEASES } from '@/app/test/mocks'
+
 import { Release } from '@/app/types'
 
 describe('renders', () => {

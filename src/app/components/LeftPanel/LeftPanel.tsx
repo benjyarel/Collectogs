@@ -1,10 +1,13 @@
 "use client"
 
 import { ChangeEvent } from "react";
+
 import { Artist, CollectionFolder } from "@/app/types";
-import styles from "./LeftPanel.module.css"
+
 import { FolderSelect } from "@/app/components/FolderSelect";
 import { ArtistSelect } from "@/app/components/ArtistSelect";
+
+import styles from "./LeftPanel.module.css"
 
 export const LeftPanel = ({
     folders,

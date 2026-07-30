@@ -1,6 +1,7 @@
 "use client"
 
 import { ChangeEvent } from 'react'
+
 import { Artist } from "@/app/types";
 
 export const ArtistSelect = ({

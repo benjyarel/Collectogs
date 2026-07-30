@@ -1,6 +1,9 @@
 "use client"
+
 import Link from "next/link"
+
 import { DiscogsUser } from "@/app/types";
+
 import { LoginButton } from "@/app/components/LoginButton"
 
 import styles from "./Header.module.css"

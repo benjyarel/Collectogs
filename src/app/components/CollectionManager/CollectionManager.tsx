@@ -1,9 +1,12 @@
 "use client"
 
 import { ChangeEvent, useState, useTransition } from "react";
+
 import { fetchCollectionFolderContent } from "@/app/actions/fetchCollectionFolderContent";
 import { fetchArtistReleases } from "@/app/actions/fetchArtistReleases";
+
 import { Artist, CollectionFolder, DiscogsMaster, DiscogsUser, Release } from '@/app/types';
+
 import { Content } from '@/app/components/Content'
 import { LeftPanel } from "@/app/components/LeftPanel"
 
