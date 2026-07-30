@@ -1,8 +1,11 @@
 import { DiscogsMaster, Release } from "@/app/types";
-import styles from "./Content.module.css"
+
 import { ArtistHeader } from "@/app/components/ArtistHeader"
 import { ReleaseCard } from "@/app/components/ReleaseCard"
+
 import { sortByYear } from "@/app/lib/sorting/sortByYear"
+
+import styles from "./Content.module.css"
 
 export const Content = ({ releases, allReleases = [] }: { releases: Release[]; allReleases?: DiscogsMaster[] }) => {
     if (!releases.length) {

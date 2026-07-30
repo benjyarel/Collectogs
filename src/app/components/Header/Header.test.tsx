@@ -1,6 +1,8 @@
 import { expect, test, describe } from 'vitest'
 import { render, screen } from '@testing-library/react'
+
 import { Header } from '.'
+
 import { FAKE_USER } from '@/app/test/mocks'
 
 describe("renders", () => {

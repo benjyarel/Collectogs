@@ -1,6 +1,7 @@
 "use client"
 
 import { ChangeEvent } from 'react'
+
 import { CollectionFolder } from "@/app/types";
 
 export const FolderSelect = ({ folders, onChange }: { folders: CollectionFolder[]; onChange: (e: ChangeEvent<HTMLSelectElement>) => void }) => {
