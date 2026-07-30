@@ -7,33 +7,31 @@ import { FolderSelect } from '.'
 import { FAKE_FOLDERS } from '@/app/test/mocks'
 
 describe('renders', () => {
-    test('a placeholder option, disabled and selected by default', () => {
-        render(<FolderSelect folders={FAKE_FOLDERS} onChange={() => { }} />)
+    test('one item per folder, with its name and count', () => {
+        render(<FolderSelect folders={FAKE_FOLDERS} selectedFolderId={null} onSelect={() => { }} />)
 
-        const placeholder = screen.getByText<HTMLOptionElement>('Select a folder')
-        const select = screen.getByLabelText<HTMLSelectElement>('Folder:')
-        expect(placeholder.disabled).toBe(true)
-        expect(select.value).toBe('')
+        expect(screen.getByRole('button', { name: /All/ })).toBeDefined()
+        expect(screen.getByRole('button', { name: /Vinyl/ })).toBeDefined()
+        expect(screen.getByText('42')).toBeDefined()
+        expect(screen.getByText('12')).toBeDefined()
     })
 
-    test('one option per folder, with its name and count', () => {
-        render(<FolderSelect folders={FAKE_FOLDERS} onChange={() => { }} />)
+    test('marks the selected folder as current', () => {
+        render(<FolderSelect folders={FAKE_FOLDERS} selectedFolderId={2} onSelect={() => { }} />)
 
-        expect(screen.getByText('All (42)')).toBeDefined()
-        expect(screen.getByText('Vinyl (12)')).toBeDefined()
+        expect(screen.getByRole('button', { name: /Vinyl/ }).getAttribute('aria-current')).toBe('true')
+        expect(screen.getByRole('button', { name: /All/ }).getAttribute('aria-current')).toBe('false')
     })
 })
 
 describe('interactivity', () => {
-    test('calls onChange with the selected folder id when the selection changes', async () => {
+    test('calls onSelect with the folder id when a folder is clicked', async () => {
         const user = userEvent.setup()
-        const onChange = vi.fn()
-        render(<FolderSelect folders={FAKE_FOLDERS} onChange={onChange} />)
+        const onSelect = vi.fn()
+        render(<FolderSelect folders={FAKE_FOLDERS} selectedFolderId={null} onSelect={onSelect} />)
 
-        const select = screen.getByLabelText<HTMLSelectElement>('Folder:')
-        await user.selectOptions(select, 'Vinyl (12)')
+        await user.click(screen.getByRole('button', { name: /Vinyl/ }))
 
-        expect(onChange).toHaveBeenCalledTimes(1)
-        expect(select.value).toBe('2')
+        expect(onSelect).toHaveBeenCalledWith(2)
     })
 })

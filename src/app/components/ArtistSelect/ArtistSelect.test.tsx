@@ -8,35 +8,34 @@ import { FAKE_ARTISTS } from '@/app/test/mocks'
 
 describe('renders', () => {
     test('a placeholder message when there are no artists', () => {
-        render(<ArtistSelect artists={[]} selectedArtistId={null} onChange={() => { }} />)
+        render(<ArtistSelect artists={[]} selectedArtistId={null} onSelect={() => { }} />)
 
         expect(screen.getByText('Select a folder to see its artists.')).toBeDefined()
     })
 
-    test('one option per artist', () => {
-        render(<ArtistSelect artists={FAKE_ARTISTS} selectedArtistId={null} onChange={() => { }} />)
+    test('one item per artist', () => {
+        render(<ArtistSelect artists={FAKE_ARTISTS} selectedArtistId={null} onSelect={() => { }} />)
 
-        expect(screen.getByText('Radiohead')).toBeDefined()
-        expect(screen.getByText('Portishead')).toBeDefined()
+        expect(screen.getByRole('button', { name: 'Radiohead' })).toBeDefined()
+        expect(screen.getByRole('button', { name: 'Portishead' })).toBeDefined()
     })
 
-    test('the currently selected artist', () => {
-        render(<ArtistSelect artists={FAKE_ARTISTS} selectedArtistId={11} onChange={() => { }} />)
+    test('marks the currently selected artist as current', () => {
+        render(<ArtistSelect artists={FAKE_ARTISTS} selectedArtistId={11} onSelect={() => { }} />)
 
-        const select = screen.getByLabelText<HTMLSelectElement>('Artist:')
-        expect(select.value).toBe('11')
+        expect(screen.getByRole('button', { name: 'Portishead' }).getAttribute('aria-current')).toBe('true')
+        expect(screen.getByRole('button', { name: 'Radiohead' }).getAttribute('aria-current')).toBe('false')
     })
 })
 
 describe('interactivity', () => {
-    test('calls onChange with the selected artist id when the selection changes', async () => {
+    test('calls onSelect with the artist id when an artist is clicked', async () => {
         const user = userEvent.setup()
-        const onChange = vi.fn()
-        render(<ArtistSelect artists={FAKE_ARTISTS} selectedArtistId={null} onChange={onChange} />)
+        const onSelect = vi.fn()
+        render(<ArtistSelect artists={FAKE_ARTISTS} selectedArtistId={null} onSelect={onSelect} />)
 
-        const select = screen.getByLabelText<HTMLSelectElement>('Artist:')
-        await user.selectOptions(select, 'Portishead')
+        await user.click(screen.getByRole('button', { name: 'Portishead' }))
 
-        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onSelect).toHaveBeenCalledWith(11)
     })
 })

@@ -7,58 +7,61 @@ import { LeftPanel } from '.'
 import { FAKE_FOLDERS, FAKE_ARTISTS } from '@/app/test/mocks'
 
 describe('renders', () => {
-    test('the folder select and a loading message while artists are loading', () => {
+    test('the folder list and a loading message while artists are loading', () => {
         render(
             <LeftPanel
                 folders={FAKE_FOLDERS}
                 artists={[]}
+                selectedFolderId={null}
                 selectedArtistId={null}
                 isLoading={true}
-                onFolderChange={() => { }}
+                onFolderSelect={() => { }}
                 onArtistSelect={() => { }}
             />
         )
 
-        expect(screen.getByLabelText('Folder:')).toBeDefined()
+        expect(screen.getByRole('button', { name: /Vinyl/ })).toBeDefined()
         expect(screen.getByText('Loading artists…')).toBeDefined()
-        expect(screen.queryByLabelText('Artist:')).toBeNull()
+        expect(screen.queryByRole('button', { name: 'Radiohead' })).toBeNull()
     })
 
-    test('the artist select once artists are loaded', () => {
+    test('the artist list once artists are loaded', () => {
         render(
             <LeftPanel
                 folders={FAKE_FOLDERS}
                 artists={FAKE_ARTISTS}
+                selectedFolderId={null}
                 selectedArtistId={null}
                 isLoading={false}
-                onFolderChange={() => { }}
+                onFolderSelect={() => { }}
                 onArtistSelect={() => { }}
             />
         )
 
-        expect(screen.getByLabelText('Artist:')).toBeDefined()
+        expect(screen.getByRole('button', { name: 'Radiohead' })).toBeDefined()
         expect(screen.queryByText('Loading artists…')).toBeNull()
     })
 })
 
 describe('interactivity', () => {
-    test('forwards folder selection to onFolderChange', async () => {
+    test('forwards folder selection to onFolderSelect', async () => {
         const user = userEvent.setup()
-        const onFolderChange = vi.fn()
+        const onFolderSelect = vi.fn()
         render(
             <LeftPanel
                 folders={FAKE_FOLDERS}
                 artists={FAKE_ARTISTS}
+                selectedFolderId={null}
                 selectedArtistId={null}
                 isLoading={false}
-                onFolderChange={onFolderChange}
+                onFolderSelect={onFolderSelect}
                 onArtistSelect={() => { }}
             />
         )
 
-        await user.selectOptions(screen.getByLabelText<HTMLSelectElement>('Folder:'), 'All (42)')
+        await user.click(screen.getByRole('button', { name: /Vinyl/ }))
 
-        expect(onFolderChange).toHaveBeenCalledTimes(1)
+        expect(onFolderSelect).toHaveBeenCalledWith(2)
     })
 
     test('forwards artist selection to onArtistSelect', async () => {
@@ -68,15 +71,16 @@ describe('interactivity', () => {
             <LeftPanel
                 folders={FAKE_FOLDERS}
                 artists={FAKE_ARTISTS}
+                selectedFolderId={null}
                 selectedArtistId={null}
                 isLoading={false}
-                onFolderChange={() => { }}
+                onFolderSelect={() => { }}
                 onArtistSelect={onArtistSelect}
             />
         )
 
-        await user.selectOptions(screen.getByLabelText<HTMLSelectElement>('Artist:'), 'Radiohead')
+        await user.click(screen.getByRole('button', { name: 'Radiohead' }))
 
-        expect(onArtistSelect).toHaveBeenCalledTimes(1)
+        expect(onArtistSelect).toHaveBeenCalledWith(10)
     })
 })
