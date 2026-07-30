@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEvent, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 
 import { fetchCollectionFolderContent } from "@/app/actions/fetchCollectionFolderContent";
 import { fetchArtistReleases } from "@/app/actions/fetchArtistReleases";
@@ -13,6 +13,7 @@ import { LeftPanel } from "@/app/components/LeftPanel"
 export const CollectionManager = ({ username, folders }: { username: DiscogsUser["username"]; folders: CollectionFolder[] }) => {
     const [artists, setArtists] = useState<Artist[]>([]);
     const [releases, setReleases] = useState<Release[]>([]);
+    const [selectedFolderId, setSelectedFolderId] = useState<CollectionFolder["id"] | null>(null);
     const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
     const [allArtistReleases, setAllArtistReleases] = useState<DiscogsMaster[]>([]);
     const [isPending, startTransition] = useTransition();
@@ -26,8 +27,8 @@ export const CollectionManager = ({ username, folders }: { username: DiscogsUser
         setAllArtistReleases(result.releases);
     };
 
-    const onFolderChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        const folderId = Number(e.target.value);
+    const onFolderSelect = (folderId: CollectionFolder["id"]) => {
+        setSelectedFolderId(folderId);
         setSelectedArtist(null);
         startTransition(async () => {
             const result = await fetchCollectionFolderContent(username, folderId);
@@ -37,8 +38,7 @@ export const CollectionManager = ({ username, folders }: { username: DiscogsUser
         });
     };
 
-    const onArtistSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-        const artistId = Number(e.target.value) || null;
+    const onArtistSelect = (artistId: Artist["id"]) => {
         const artist = artists.find((a) => a.id === artistId) ?? null;
         startTransition(async () => {
             await selectArtist(artist);
@@ -54,9 +54,10 @@ export const CollectionManager = ({ username, folders }: { username: DiscogsUser
             <LeftPanel
                 folders={folders}
                 artists={artists}
+                selectedFolderId={selectedFolderId}
                 selectedArtistId={selectedArtist?.id ?? null}
                 isLoading={isPending}
-                onFolderChange={onFolderChange}
+                onFolderSelect={onFolderSelect}
                 onArtistSelect={onArtistSelect}
             />
             <Content releases={artistReleases} allReleases={allArtistReleases} />

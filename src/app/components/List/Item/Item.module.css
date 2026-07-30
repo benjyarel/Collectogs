@@ -1,0 +1,25 @@
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-left: 3px solid transparent;
+    border-radius: var(--border-radius);
+    background-color: transparent;
+    color: var(--light-brown);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.item:hover {
+    background-color: var(--brown-highlighted);
+}
+
+.item[aria-current="true"] {
+    background-color: var(--brown-selected);
+    border-left-color: var(--orange);
+    color: var(--white);
+}

@@ -1,21 +1,31 @@
 "use client"
 
-import { ChangeEvent } from 'react'
-
 import { CollectionFolder } from "@/app/types";
 
-export const FolderSelect = ({ folders, onChange }: { folders: CollectionFolder[]; onChange: (e: ChangeEvent<HTMLSelectElement>) => void }) => {
+import { List } from "@/app/components/List";
+
+import styles from "./FolderSelect.module.css";
+
+export const FolderSelect = ({
+    folders,
+    selectedFolderId,
+    onSelect,
+}: {
+    folders: CollectionFolder[];
+    selectedFolderId: CollectionFolder["id"] | null;
+    onSelect: (folderId: CollectionFolder["id"]) => void;
+}) => {
     return (
         <div className="field">
-            <label htmlFor="folders">Folder:</label>
-            <select onChange={onChange} name="collection folders" id="folders" defaultValue="">
-                <option value="" disabled>Select a folder</option>
-                {folders?.map(({ id, name, count }) => {
-                    return (<option key={id} value={id}>
-                        {name} ({count})
-                    </option>)
-                })}
-            </select>
+            <h2 className={styles.title}>Folders</h2>
+            <List.Box>
+                {folders.map(({ id, name, count }) => (
+                    <List.Item key={id} isSelected={id === selectedFolderId} onSelect={() => onSelect(id)}>
+                        <span className={styles.label}>{name}</span>
+                        <span className={styles.count}>{count}</span>
+                    </List.Item>
+                ))}
+            </List.Box>
         </div>
     )
 }

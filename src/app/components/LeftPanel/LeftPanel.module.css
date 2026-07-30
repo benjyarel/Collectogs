@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: clamp(25%, 29%, 33%);
+    flex-shrink: 0;
     padding: 16px;
     min-height: 0;
     overflow-y: auto;

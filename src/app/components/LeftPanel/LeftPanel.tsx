@@ -1,7 +1,5 @@
 "use client"
 
-import { ChangeEvent } from "react";
-
 import { Artist, CollectionFolder } from "@/app/types";
 
 import { FolderSelect } from "@/app/components/FolderSelect";
@@ -12,25 +10,27 @@ import styles from "./LeftPanel.module.css"
 export const LeftPanel = ({
     folders,
     artists,
+    selectedFolderId,
     selectedArtistId,
     isLoading,
-    onFolderChange,
+    onFolderSelect,
     onArtistSelect,
 }: {
     folders: CollectionFolder[];
     artists: Artist[];
+    selectedFolderId: CollectionFolder["id"] | null;
     selectedArtistId: Artist["id"] | null;
     isLoading: boolean;
-    onFolderChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-    onArtistSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+    onFolderSelect: (folderId: CollectionFolder["id"]) => void;
+    onArtistSelect: (artistId: Artist["id"]) => void;
 }) => {
     return (
         <div className={styles["left-panel"]}>
-            <FolderSelect folders={folders} onChange={onFolderChange} />
+            <FolderSelect folders={folders} selectedFolderId={selectedFolderId} onSelect={onFolderSelect} />
             {isLoading ? (
                 <p>Loading artists…</p>
             ) : (
-                <ArtistSelect artists={artists} selectedArtistId={selectedArtistId} onChange={onArtistSelect} />
+                <ArtistSelect artists={artists} selectedArtistId={selectedArtistId} onSelect={onArtistSelect} />
             )}
         </div>
 

@@ -1,17 +1,19 @@
 "use client"
 
-import { ChangeEvent } from 'react'
-
 import { Artist } from "@/app/types";
+
+import { List } from "@/app/components/List";
+
+import styles from "./ArtistSelect.module.css";
 
 export const ArtistSelect = ({
     artists,
     selectedArtistId,
-    onChange,
+    onSelect,
 }: {
     artists: Artist[];
-    selectedArtistId: number | null;
-    onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+    selectedArtistId: Artist["id"] | null;
+    onSelect: (artistId: Artist["id"]) => void;
 }) => {
     if (!artists.length) {
         return <p>Select a folder to see its artists.</p>;
@@ -19,20 +21,14 @@ export const ArtistSelect = ({
 
     return (
         <div className="field">
-            <label htmlFor="artists">Artist:</label>
-            <select
-                id="artists"
-                name="artists"
-                size={Math.min(artists.length, 10)}
-                value={selectedArtistId ?? ""}
-                onChange={onChange}
-            >
+            <h2 className={styles.title}>Artists</h2>
+            <List.Box>
                 {artists.map(({ id, name }) => (
-                    <option key={id} value={id}>
-                        {name}
-                    </option>
+                    <List.Item key={id} isSelected={id === selectedArtistId} onSelect={() => onSelect(id)}>
+                        <span className={styles.label}>{name}</span>
+                    </List.Item>
                 ))}
-            </select>
+            </List.Box>
         </div>
     )
 }
