@@ -1,7 +1,6 @@
 import { DiscogsMaster, Release } from "@/app/types";
 
 import { ArtistHeader } from "@/app/components/ArtistHeader"
-import { CollectionProgress } from "@/app/components/CollectionProgress"
 import { ReleaseCard } from "@/app/components/ReleaseCard"
 
 import { sortByYear } from "@/app/lib/sorting/sortByYear"
@@ -22,10 +21,7 @@ export const Content = ({ releases, allReleases = [] }: { releases: Release[]; a
 
     return (
         <div className={styles.content}>
-            <ArtistHeader artistName={artistName} />
-            {allReleases.length > 0 && (
-                <CollectionProgress owned={mainReleases.length} total={allReleases.length} />
-            )}
+            <ArtistHeader artistName={artistName} ownedReleases={mainReleases.length} totalRelease={allReleases.length} />
             <ul>
                 {mainReleases.map((release) => (
                     <li key={release.id}>
