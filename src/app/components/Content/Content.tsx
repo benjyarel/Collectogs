@@ -21,7 +21,7 @@ export const Content = ({ releases, allReleases = [] }: { releases: Release[]; a
 
     return (
         <div className={styles.content}>
-            <ArtistHeader artistName={artistName} />
+            <ArtistHeader artistName={artistName} ownedReleases={mainReleases.length} totalRelease={allReleases.length} />
             <ul>
                 {mainReleases.map((release) => (
                     <li key={release.id}>
