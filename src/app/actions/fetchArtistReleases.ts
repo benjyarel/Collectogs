@@ -22,3 +22,5 @@ export const fetchArtistReleases = async (name: Artist['name']) => {
 
     return { success: true, releases: Array.from(uniqueReleasesMap.values()) }
 }
+
+export type ArtistReleasesResult = Awaited<ReturnType<typeof fetchArtistReleases>>;

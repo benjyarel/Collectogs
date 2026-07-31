@@ -1,4 +1,8 @@
-import { DiscogsMaster, Release } from "@/app/types";
+import { use } from "react";
+
+import type { ArtistReleasesResult } from "@/app/actions/fetchArtistReleases";
+
+import { Release } from "@/app/types";
 
 import { ArtistHeader } from "@/app/components/ArtistHeader"
 import { ReleaseCard } from "@/app/components/ReleaseCard"
@@ -7,7 +11,9 @@ import { sortByYear } from "@/app/lib/sorting/sortByYear"
 
 import styles from "./Content.module.css"
 
-export const Content = ({ releases, allReleases = [] }: { releases: Release[]; allReleases?: DiscogsMaster[] }) => {
+export const Content = ({ releases, allReleasesPromise }: { releases: Release[]; allReleasesPromise: Promise<ArtistReleasesResult> }) => {
+    const { releases: allReleases } = use(allReleasesPromise);
+
     if (!releases.length) {
         return <div className={styles.content}>Select a folder to see its albums.</div>;
     }
