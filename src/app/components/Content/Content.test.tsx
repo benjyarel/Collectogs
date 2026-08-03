@@ -24,7 +24,7 @@ describe('renders', () => {
     test('a placeholder message when there are no releases', async () => {
         await renderContent({ releases: [], allReleasesPromise: buildEmptyArtistReleases() })
 
-        expect(await screen.findByText('Select a folder to see its albums.')).toBeDefined()
+        expect(await screen.findByText('Fail Test')).toBeDefined()
     })
 
     test(' a release, with its title and year', async () => {
